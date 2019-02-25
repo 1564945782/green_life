@@ -1,0 +1,170 @@
+<template>
+  <div class="home">
+		<main-nav></main-nav>
+		<section class="banner">
+			<h1>买盆栽，就找萌芽小镇</h1>
+			<p>将绿意带回日常家居、办公，享受健康生活</p>
+			<button type="button" class="arrow-left"><</button>
+			<button type="button" class="arrow-right">></button>
+			<br /><a href="#">联系我们</a><br />
+			<button type="button" class="circle-one"></button>
+			<button type="button" class="circle-two"></button>
+			<button type="button" class="circle-three"></button>
+		</section>
+		<section class="new-est">
+			<h2>○<span>最新</span>○</h2>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+			<goods-display></goods-display>
+		</section>
+		<div class="take-space"></div>
+		<section class="hot-est">
+			<h2>○<span>最热</span>○</h2>
+		</section>
+		<div class="take-space"></div>
+		<section class="recommend-est">
+			<h2>○<span>推荐</span>○</h2>
+		</section>
+		<section class="about-more"></section>
+		<bottom-footer></bottom-footer>
+		<a href="#" class="back-top" title="返回顶部">↑</a>
+  </div>
+</template>
+
+<script>
+	import {$,$$} from '../assets/js/base.js'
+	import mainNav from '../components/main_nav'
+	import goodsDisplay from '../components/goods_display.vue'
+	import bottomFooter from '../components/bottom_footer.vue'
+	console.log($("a"))
+	export default {
+		name: 'home',
+		components:{
+			mainNav,
+			bottomFooter,
+			goodsDisplay
+		}
+	}
+</script>
+
+<style>
+	.home{
+		height: 1000px;
+		width: 100%;
+	}
+	.banner{
+		text-align: center;
+		height: 600px;
+		background: url(https://photo.16pic.com/00/56/11/16pic_5611275_b.jpg) no-repeat fixed left -100px/100%;
+	}
+	.banner h1{
+		color: #fff;
+		display: inline-block;
+		font: 900 50px "微软雅黑";
+		padding: 5px 0;
+		margin-top: 120px;
+		border-bottom: 4px solid #fff;
+	}
+	.banner p{
+		color: #fff;
+		font-size: 18px;
+		margin-top: 10px;
+	}
+	.banner [class^="arrow"]{
+		color: #fff;
+		height: 80px;
+		width: 80px;
+		margin-top: 15px;
+		font-size: 80px;
+		line-height: 80px;
+		border-radius: 50%;
+		border: 2px solid #fff;
+		background: transparent;
+	}
+	[class^="arrow"]:hover{
+		background: rgba(200,200,200,.3);
+	}
+	.arrow-left{
+		float: left;
+		margin-left: 60px;
+	}
+	.arrow-right{
+		float: right;
+		margin-right: 60px;
+	}
+	.banner a{
+		display: inline-block;
+		color: #fff;
+		height: 50px;
+		width: 100px;
+		font: 700 24px/50px "微软雅黑";
+		padding: 0 20px;
+		margin-top: 40px;
+		border: 2px solid #fff;
+		border-radius:25px;
+	}
+	.banner a:hover{
+		background: rgba(150,150,150,.3);
+	}
+	.banner [class^="circle"]{
+		height: 20px;
+		width: 20px;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		margin: 150px 10px 0;
+		background: rgba(255,255,255,.3);
+	}
+	[class^="circle"]:hover{
+		background: rgba(100,100,100,.5);
+	}
+	.take-space{
+			height: 400px;
+			width: 100%;
+	}
+	.take-space:nth-of-type(1){
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551033508106&di=1bcba8eaff061d2b6efe26e54bc932aa&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-12-02%2F5a2263b65ca0a.jpg) no-repeat fixed left top/100%;
+	}
+	.take-space:nth-of-type(2){
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551033508107&di=33ddead123192c5a28304c0d0e2d4d2f&imgtype=0&src=http%3A%2F%2Fwww.xinjiadiy.com%2Fimages%2Farticle_img%2Ftuwen%2F20170509%2F4999.jpg) no-repeat fixed left top/100%;
+	}
+	[class$="-est"]{
+		text-align: center;
+		height: 800px;
+		background: #ddd;
+	}
+	[class$="-est"] h2{
+		padding: 15px 0;
+		text-align: center;
+	}
+	[class$="-est"] h2 span{
+		margin: 0 20px;
+	}
+	.about-more{
+		height:700px;
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551038718565&di=050f67fd8dfb60d04c5350241396b83a&imgtype=0&src=http%3A%2F%2Fpic37.photophoto.cn%2F20151011%2F0020033066043253_b.jpg) no-repeat fixed left 0/100% 700px;
+	}
+	.back-top{
+		position: fixed;
+		font: 900 40px/60px "微软雅黑";
+		text-align: center;
+		bottom: 30px;
+		right: 30px;
+		color: #ccc;
+		height: 60px;
+		width: 60px;
+		border: 0;
+		border-radius: 6px;
+		background: rgba(100,100,100,.6);
+	}
+	.back-top:hover{
+		color: #999;
+		background: rgba(100,100,100,1);
+	}
+</style>
+
+
