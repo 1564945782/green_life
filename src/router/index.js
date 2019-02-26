@@ -82,7 +82,7 @@ export default new Router({
 			children:[
 				{
 					path: '/details',
-					name: 'Details',
+					name: 'details',
 					component: Details
 				}
 			]

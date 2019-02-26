@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<div class="banner-right">
-					<p class="info_1">仙人球植物盆栽室内开花防辐射桌面仙人掌盆栽植物多肉植物仙人球</p>
+					<p class="info_1 describle">仙人球植物盆栽室内开花防辐射桌面仙人掌盆栽植物多肉植物仙人球</p>
 					<p class="info_2">保证成活 2盆送工具</p>
 					<!-- 价格区域 -->
 					<div class="price">
@@ -44,25 +44,56 @@
 					<!-- 运费区域 -->
 					<div class="route">
 						<span class="route_price">运费</span>
-						<el-dropdown>
-							  <span class="el-dropdown-link">
-									四川成都<i class="el-icon-arrow-down el-icon--right"></i>
-							  </span>
-							  <el-dropdown-menu slot="dropdown">
-								<el-dropdown-item>四川绵阳</el-dropdown-item>
-								<el-dropdown-item>四川德阳</el-dropdown-item>
-								<el-dropdown-item>四川眉山</el-dropdown-item>
-								<el-dropdown-item>四川雅安</el-dropdown-item>
-								<el-dropdown-item>四川资阳</el-dropdown-item>
-							  </el-dropdown-menu>
-						</el-dropdown>
-						<span>至</span>
-						
+						<div class="select1">
+							<el-dropdown>
+								  <span class="el-dropdown-link">
+										四川成都<i class="el-icon-arrow-down el-icon--right"></i>
+								  </span>
+								  <el-dropdown-menu slot="dropdown">
+									<el-dropdown-item>四川绵阳</el-dropdown-item>
+									<el-dropdown-item>四川德阳</el-dropdown-item>
+									<el-dropdown-item>四川眉山</el-dropdown-item>
+									<el-dropdown-item>四川雅安</el-dropdown-item>
+									<el-dropdown-item>四川资阳</el-dropdown-item>
+								  </el-dropdown-menu>
+							</el-dropdown>	
+							<span>至</span>						  
+						</div>
+						<div class="select2">
+							<el-dropdown>
+								  <span class="el-dropdown-link">
+										四川成都<i class="el-icon-arrow-down el-icon--right"></i>
+								  </span>
+								  <el-dropdown-menu slot="dropdown">
+									<el-dropdown-item>四川绵阳</el-dropdown-item>
+									<el-dropdown-item>四川德阳</el-dropdown-item>
+									<el-dropdown-item>四川眉山</el-dropdown-item>
+									<el-dropdown-item>四川雅安</el-dropdown-item>
+									<el-dropdown-item>四川资阳</el-dropdown-item>
+								  </el-dropdown-menu>
+							</el-dropdown>
+								<span>快递：0.00</span>
+						</div>
+					</div>
+					<!-- 养殖方法 -->
+					<div class="feed">
+						这是商品的养殖方法
+					</div>
+					<!-- 购物车部分 -->
+					<div class="shop">
+						<div class="change">
+							<input class="inp" type="number"/>
+							<span >件</span>
+							<span>库存：9999</span>
+						</div>
+						<div class="car">
+							<el-button type="danger">加入购物车</el-button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<a href="#" class="back-top" title="返回顶部">↑</a>
+		<bottom-footer></bottom-footer>
   </div>
 </template>
 
@@ -70,10 +101,17 @@
 	import {$,$$} from '../assets/js/base.js'
 	import mainNav from '../components/main_nav'
 	import secondaryNav from '../components/secondary_nav'
+	import bottomFooter from '../components/bottom_footer.vue'
 	export default {
 		name: 'details',
 		components:{
-			mainNav,secondaryNav
+			mainNav,secondaryNav,bottomFooter
+		},
+		methods:{
+			
+		},
+		created: function(){
+			
 		}
 	}
 </script>
@@ -81,6 +119,7 @@
 <style>
 	.banner{
 		width: 100%;
+		background-color: #333333;
 	}
 	.box_one{
 		width: 1200px;
@@ -160,5 +199,52 @@
 	.route{
 		width: 100%;
 		margin-top: 10px;
+		display: flex;
+	}
+	.select1{
+		margin-left: 30px;
+		color: black;
+	}
+	.select1 span{
+		font-size: 14px;
+		color: black;
+	}
+	.select2{
+		margin-left: 10px;
+		color: black;
+	}
+	.select2 span{
+		font-size: 14px;
+		color: black;
+	}
+	.feed{
+		width: 100%;
+		margin-top: 20px;
+		height: 200px;
+		background-color: lightcoral;
+	}
+	.shop{
+		width: 100%;
+		display: flex;
+		margin-top: 25px;
+		justify-content: space-around;
+	}
+	.change{
+		width: 40%;
+		margin: 0 auto;
+	}
+	.car{
+		width: 40%;
+		margin: 0 auto;
+	}
+	.inp{
+		width: 40%;
+		height: 30px;
+	}
+	.el-button--danger {
+    color: #fff;
+    background-color: #f56c6c;
+    border-color: #f56c6c;
+    width: 200px;
 	}
 </style>

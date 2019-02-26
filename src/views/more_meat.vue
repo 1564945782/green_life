@@ -2,11 +2,13 @@
   <div class="moremeat">
 		<main-nav></main-nav>
 		<section class="banner">
-			<el-carousel :interval="4000" type="card" height="200px">
-				<el-carousel-item v-for="(item,index) in 6" :key="item" :style="{backgroundImage:'url('+items[index]+')'}">
-					<h3>{{ item }}</h3>
-				</el-carousel-item>
-			</el-carousel>
+			<div class="banner_box">
+				<el-carousel :interval="4000" type="card" height="300px">
+					<el-carousel-item v-for="(item,index) in 6" :key="item" :style="{backgroundImage:'url('+items[index]+')'}">
+						<h3>{{ item }}</h3>
+					</el-carousel-item>
+				</el-carousel>
+			</div>
 		</section>
 		<!-- 中间第一部分 -->
 		<div class="textbox">
@@ -101,27 +103,43 @@
 	import mainNav from '../components/main_nav'
 	import meatGoodsDisplay from '../components/meat_goods_display.vue'
 	import bottomFooter from '../components/bottom_footer.vue'
+	import Meat_card1 from '../assets/img/meat-card1.jpg'
+	import Meat_card2 from '../assets/img/meat-card2.jpg'
+	import Meat_card3 from '../assets/img/meat-card3.jpg'
+	import Meat_card4 from '../assets/img/meat-card4.jpg'
+	import Meat_card5 from '../assets/img/meat-card5.jpg'
+	import Meat_card6 from '../assets/img/meat-card6.jpg'
 	export default {
 		name: 'moremeat',
 		components:{
 			mainNav,meatGoodsDisplay,bottomFooter
 		},
 		data(){
-			return {items:['http://img5.imgtn.bdimg.com/it/u=1088535705,867810428&fm=26&gp=0.jpg',
-			'http://img2.imgtn.bdimg.com/it/u=1523526534,1439531660&fm=26&gp=0.jpg',
-			'http://img0.imgtn.bdimg.com/it/u=1654121123,1277732539&fm=11&gp=0.jpg',
-			'http://img4.imgtn.bdimg.com/it/u=6312157,1465381683&fm=11&gp=0.jpg',
-			'http://img2.imgtn.bdimg.com/it/u=1523526534,1439531660&fm=26&gp=0.jpg',
-			'http://img2.imgtn.bdimg.com/it/u=2961937609,3899499005&fm=26&gp=0.jpg'
+			return {items:[Meat_card1,Meat_card2,Meat_card3,Meat_card4,Meat_card5,Meat_card6
 			]}
 		}
 	}
 </script>
 
 <style>
+	.el-carousel__item--card {
+		width: 450px;
+	}
 	.banner{
 		width: 100%;
 		margin-top: 20px;
+		background-color: #484646;
+	}
+	.banner_box{
+		width: 1200px;
+		margin: 0 auto;
+		overflow: hidden;
+	}
+	.el-carousel {
+		overflow-x: hidden;
+		position: relative;
+		width: 100%;
+		left: 70px;
 	}
 .el-carousel__item h3 {
     color: #475669;
