@@ -14,6 +14,7 @@ import MyInfo from '../views/my_info'
 import OrderForm from '../views/order_form'
 import SearchEnd from '../views/search_end'
 import Feedback from '../views/feedback'
+import MeatGoodsDisplay from '../components/meat_goods_display'
 
 Vue.use(Router)
 
@@ -73,6 +74,18 @@ export default new Router({
 		  path: '/feedback',
 		  name: 'feedback',
 		  component: Feedback
+		},
+		{
+			path: '/meat_goods_display',
+			name: 'meat_goods_display',
+			component: MeatGoodsDisplay,
+			children:[
+				{
+					path: '/details',
+					name: 'Details',
+					component: Details
+				}
+			]
 		}
   ]
 })

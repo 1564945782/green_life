@@ -13,6 +13,6 @@ button,[type="button"],[type="submit"],[class$="btn"]{
 ul li{
 	list-style: none;
 }
-a{
+a,a:hover{
 	text-decoration: none;
 }
