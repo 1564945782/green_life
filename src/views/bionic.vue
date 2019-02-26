@@ -10,6 +10,8 @@
 		</div>
         <flower-nav></flower-nav>
         <flower-displayb :c_img="tu_src"></flower-displayb>
+        <meat-goods-display></meat-goods-display>
+        <bottom-footer></bottom-footer>
   </div>
 </template>
 
@@ -18,10 +20,12 @@
 	import mainNav from '../components/main_nav'
     import flowerDisplayb from '../components/flower_display_b'
     import flowerNav from '../components/flower_nav'
+    import meatGoodsDisplay from '../components/meat_goods_display.vue'
+    import bottomFooter from '../components/bottom_footer.vue'
 	export default {
 		name: 'bionic',
 		components:{
-			mainNav,flowerDisplayb,flowerNav
+			mainNav,flowerDisplayb,flowerNav,meatGoodsDisplay,bottomFooter
 		},
 		data(){
 			return {
@@ -45,6 +49,10 @@
 </script>
 
 <style>
+img:hover{
+  opacity: 0.9;
+  transition: all .3s ease-in;
+}
 .top{
     margin-bottom: 250px;
 	width:100%;

@@ -62,8 +62,6 @@
 				</div>
 			</div>
 		</section>
-		<!-- 公共底部 -->
-		<bottom-footer></bottom-footer>
 		<a href="#" class="back-top" title="返回顶部">↑</a>
   </div>
 </template>

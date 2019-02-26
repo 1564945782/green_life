@@ -9,6 +9,7 @@
 	<section class="load_more">
 		<div class="el-icon-d-arrow-left"></div>
 	</section>
+	<bottom-footer></bottom-footer>
 </div>
 </template>
 
@@ -20,10 +21,11 @@ import flowerDisplaya from '../components/flower_display_a'
 import flowerDisplayb from '../components/flower_display_b'
 import flowerNav from '../components/flower_nav'
 import flowerShuffling from '../components/flower_shuffling'
+import bottomFooter from '../components/bottom_footer.vue'
 export default {
 	name: 'flower',
 	components:{
-		mainNav,flowerDisplaya,flowerNav,flowerShuffling,flowerDisplayb
+		mainNav,flowerDisplaya,flowerNav,flowerShuffling,flowerDisplayb,bottomFooter
 	},
 	data(){
 		return {
