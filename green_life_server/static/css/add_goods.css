@@ -1,0 +1,49 @@
+form{
+	
+}
+fieldset{
+	margin: 10px 0;
+	border: 1px solid #ccc;
+}
+legend{
+	padding: 5px 10px;
+	background: #ccc;
+}
+input,select{
+	height: 24px;
+	box-sizing: border-box;
+}
+label{
+	display: inline-block;
+	margin: 5px 0;
+}
+#base-info label{
+	margin-right: 30px;
+}
+[name="name"],[name="del_price"],[name="ins_price"],[name="sells"],[name="inventory"]{
+	width: 100px;
+}
+#img-url input{
+	width: 440px;
+}
+#img-url [name^="big"]{
+	margin-right: 50px;
+}
+#others-info textarea{
+	vertical-align: top;
+	width: 500px;
+	height: 100px;
+	line-height: 25px;
+	resize: none;
+}
+#others-info textarea:nth-of-type(1){
+	margin-right: 30px;
+}
+[type="submit"]{
+	cursor: pointer;
+	position: relative;
+	left: 50%;
+	margin-left: -40px;
+	height: 30px;
+	width: 80px;
+}
