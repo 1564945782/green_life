@@ -13,41 +13,54 @@
 		</section>
 		<section class="new-est">
 			<h2>○<span>最新</span>○</h2>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
-			<goods-display></goods-display>
+			<home-display v-for="(item,index) in goodsData.slice(0, 8)" :singleData="item"></home-display>
 		</section>
-		<div class="take-space"></div>
+		<div class="take-space">
+			<p><b>一抹绿意，带给您不一样的清新</b><p>
+			<p></p>
+		</div>
 		<section class="hot-est">
 			<h2>○<span>最热</span>○</h2>
+			<home-display v-for="(item,index) in goodsData.slice(2, 10)" :singleData="item"></home-display>
 		</section>
-		<div class="take-space"></div>
+		<div class="take-space">
+			<p><b></b><p>
+			<p></p>
+		</div>
 		<section class="recommend-est">
 			<h2>○<span>推荐</span>○</h2>
+			<home-display v-for="(item,index) in goodsData.slice(4, 12)" :singleData="item"></home-display>
 		</section>
-		<section class="about-more"></section>
 		<bottom-footer></bottom-footer>
 		<a href="#" class="back-top" title="返回顶部">↑</a>
   </div>
 </template>
 
 <script>
-	import {$,$$} from '../assets/js/base.js'
+	import  $ from 'jquery';
 	import mainNav from '../components/main_nav'
-	import goodsDisplay from '../components/goods_display.vue'
+	import homeDisplay from '../components/home_display.vue'
 	import bottomFooter from '../components/bottom_footer.vue'
-	console.log($("a"))
+	//生命周期函数： beforeCreate，created，beforeMount，mounted，beforeUpdate，updated，beforeDestroy，destroyed
 	export default {
 		name: 'home',
+		data:function(){
+			return {
+				goodsData:""
+			}
+		},
 		components:{
 			mainNav,
 			bottomFooter,
-			goodsDisplay
+			homeDisplay
+		},
+		beforeCreate(){
+			let that=this;
+			let url="http://localhost:81/getgoodsdata?cb=?"
+			$.getJSON(url,function(result){
+				that.goodsData=result;
+				console.log(that.goodsData)
+			})
 		}
 	}
 </script>
@@ -60,7 +73,7 @@
 	.banner{
 		text-align: center;
 		height: 600px;
-		background: url(https://photo.16pic.com/00/56/11/16pic_5611275_b.jpg) no-repeat fixed left -100px/100%;
+		background: url(../assets/img/f_home_banner_bg.jpg) no-repeat fixed left -100px/100%;
 	}
 	.banner h1{
 		color: #fff;
@@ -134,19 +147,16 @@
 	}
 	[class$="-est"]{
 		text-align: center;
-		height: 800px;
-		background: #ddd;
+		/* height: 800px; */
+		background: #eee;
 	}
 	[class$="-est"] h2{
+		color: #56d25b;
 		padding: 15px 0;
 		text-align: center;
 	}
 	[class$="-est"] h2 span{
 		margin: 0 20px;
-	}
-	.about-more{
-		height:700px;
-		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551038718565&di=050f67fd8dfb60d04c5350241396b83a&imgtype=0&src=http%3A%2F%2Fpic37.photophoto.cn%2F20151011%2F0020033066043253_b.jpg) no-repeat fixed left 0/100% 700px;
 	}
 	.back-top{
 		position: fixed;
