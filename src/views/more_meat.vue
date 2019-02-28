@@ -1,7 +1,7 @@
-﻿<template>
+<template>
   <div class="moremeat">
 		<main-nav></main-nav>
-		<section class="banner">
+		<section class="banner_1">
 			<div class="banner_box">
 				<el-carousel :interval="4000" type="card" height="300px">
 					<el-carousel-item v-for="(item,index) in 6" :key="item" :style="{backgroundImage:'url('+items[index]+')'}">
@@ -91,7 +91,7 @@
 			</div>
 		</div>
 		<!-- 引入的组件 -->
-		<meat-goods-display></meat-goods-display>
+		<meat-goods-display :meat="moreMeat"></meat-goods-display>
 		<!-- 公共底部 -->
 		<bottom-footer></bottom-footer>
 		<a href="#" class="back-top" title="返回顶部">↑</a>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-	import {$,$$} from '../assets/js/base.js'
+	import $ from "jquery"
 	import mainNav from '../components/main_nav'
 	import meatGoodsDisplay from '../components/meat_goods_display.vue'
 	import bottomFooter from '../components/bottom_footer.vue'
@@ -115,8 +115,21 @@
 			mainNav,meatGoodsDisplay,bottomFooter
 		},
 		data(){
-			return {items:[Meat_card1,Meat_card2,Meat_card3,Meat_card4,Meat_card5,Meat_card6
-			]}
+			return {
+				items:[Meat_card1,Meat_card2,Meat_card3,Meat_card4,Meat_card5,Meat_card6],
+				moreMeat:[]
+			}
+		},
+		beforeCreate(){
+			let that=this;
+			let url="http://localhost:81/getgoodsdata?cb=?";
+			$.getJSON(url,function(result){
+				for(let i=0;i<result.length;i++){
+					if(result[i].type=="多肉"){
+						that.moreMeat.push(result[i])
+					}
+				}
+			})
 		}
 	}
 </script>
@@ -125,7 +138,7 @@
 	.el-carousel__item--card {
 		width: 450px;
 	}
-	.banner{
+	.banner_1{
 		width: 100%;
 		margin-top: 20px;
 		background-color: #484646;

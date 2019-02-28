@@ -17,7 +17,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'green_life',
+    database: 'green-life',
 	multipleStatements: true
 });
 mydb.connect();
@@ -32,6 +32,8 @@ app.set('view engine','html');        //注册模板引擎到express
 
 
 //前端请求数据的路由
+
+//$.getJSON方式请求/多肉页面
 app.get('/getgoodsdata',(req,res)=>{
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
@@ -43,8 +45,36 @@ app.get('/getgoodsdata',(req,res)=>{
 			res.send("There is no goods!");
 		}
 	})
-	
 })
+//axios.post请求方式/花卉页面
+app.post('/getdatabyajax',(req,res)=>{
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	// console.log("zhixingle")
+	let sql="select * from goods_info";
+	mydb.query(sql,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else if(result.length!=0){
+			res.send(result)
+		}else{
+			res.send("There is no goods!");
+		}
+	})
+})
+
+//商品详情页面
+app.get('/getdetails',(req,res)=>{
+	let goodsId=req.query.id;
+	let sql="select * from goods_info where id=?";
+	mydb.query(sql,[goodsId],(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
+		}
+	})
+})
+
+
 
 //后端路由
 app.get('/test',(req,res)=>{

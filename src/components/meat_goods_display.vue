@@ -6,31 +6,15 @@
 			</div>
 			<div class="right-box">
 				<!-- one -->
-				<div class="list">
+				<div class="list" v-for="item in meat">
 					<div class="list-img">
-						<img src="http://img0.imgtn.bdimg.com/it/u=3367837930,3516456228&fm=15&gp=0.jpg" alt="">
+						<img class="img_item" :src="item.big_imgs" alt="">
 					</div>
 					<div class="list-text">
 					<!-- 这里是商品信息 -->
-						 <el-button type="success" round class="btn" @click="jump()">查看详情</el-button>
-					</div>
-				</div>
-				<!-- two -->
-				<div class="list">
-					<div class="list-img">
-						<img src="http://img2.imgtn.bdimg.com/it/u=3328393433,2537053519&fm=15&gp=0.jpg" alt="">
-					</div>
-					<div class="list-text">
-						<!-- 这里是商品信息 -->
-					</div>
-				</div>
-				<!-- three -->
-				<div class="list">
-					<div class="list-img">
-						<img src="http://img4.imgtn.bdimg.com/it/u=1897516419,4142071001&fm=15&gp=0.jpg" alt="">
-					</div>
-					<div class="list-text">
-						<!-- 这里是商品信息 -->
+						<p class="item_name">【{{item.name}}】</p>
+						<p class="item_description">{{item.description}}</p>
+						<el-button type="success"  class="btn" @click="jump(item.id)">查看详情</el-button>
 					</div>
 				</div>
 			</div>
@@ -39,18 +23,22 @@
 </template>
 
 <script>
+	
 	export default {
 		name: 'meat_goods_dispaly',
-		data() {
+		data:function(){
 			return {
-				msg: 'Welcome to Your Vue.js App'
-			};
-		},
-		methods:{
-			jump (){
-				this.$router.push({path: '/details'})
+				
 			}
-		}
+		},
+		props:["meat"],
+		methods:{
+			jump (num){
+				console.log(num)
+				this.$router.push({path: '/details?id='+num})
+			}
+		},
+		
 	}
 </script>
 
@@ -84,11 +72,32 @@
 		  width: 20%;
 		  height: 170px;
 	}
+	.img_item{
+		width: 100%;
+		height: 100%;
+	}
 	.list-text{
 		  width: 77%;
 		  height: 170px;
-		  background-color: lightblue;
+		  background-color: #dfe8f1;
+	}
+	.item_name{
+		font-size: 20px;
+		color: #840606;
+		font-weight: bold;
+		margin-top: 10px;
+		margin: 0 auto;
+	}
+	.item_description{
+		font-size: 16px;
+		margin-top: 10px;
+		margin-left: 10px;
 	}
 	/* 按钮 */
-	
+	.el-button--success {
+		color: #fff;
+		background-color: #f37272;
+		border-color: #f1488b;
+		margin: 0 auto;
+	}
 </style>

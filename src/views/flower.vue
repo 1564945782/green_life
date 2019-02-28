@@ -1,11 +1,13 @@
-﻿<template>
+<template>
 <div class="flower">
 	<main-nav></main-nav>	
 	<flower-shuffling></flower-shuffling>
 	<flower-nav @change="mychange"></flower-nav>
 	<flower-displaya :mydata="(flag==1)?mydata.shui_data:mydata.tu_data"></flower-displaya>
-	<flower-displayb :c_img="(flag==1)?c_img1.shui_src:c_img1.tu_src"></flower-displayb>
-	<flower-displayb :c_img="(flag==1)?c_img2.shui_src:c_img2.tu_src"></flower-displayb>
+	<!-- <flower-displayb :c_img="(flag==1)?c_img1.shui_src:c_img1.tu_src"></flower-displayb>
+	<flower-displayb :c_img="(flag==1)?c_img2.shui_src:c_img2.tu_src"></flower-displayb> -->
+	<flower-displayb :flower1="flowerdata1"></flower-displayb>
+	<flower-displayb :flower1="flowerdata2"></flower-displayb>
 	<section class="load_more">
 		<div class="el-icon-d-arrow-left"></div>
 	</section>
@@ -15,13 +17,15 @@
 
 <script>
 
-import {$,$$} from '../assets/js/base.js'
+// import {$,$$} from '../assets/js/base.js'
 import mainNav from '../components/main_nav'
 import flowerDisplaya from '../components/flower_display_a'
 import flowerDisplayb from '../components/flower_display_b'
 import flowerNav from '../components/flower_nav'
 import flowerShuffling from '../components/flower_shuffling'
 import bottomFooter from '../components/bottom_footer.vue'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
 	name: 'flower',
 	components:{
@@ -46,40 +50,10 @@ export default {
      			   'https://gd3.alicdn.com/imgextra/i3/4137666646/O1CN011yxuibKUsySuyLx_!!4137666646.jpg_400x400.jpg_.webp']
 				}
 			},
-			c_img1:{
-				shui_src:{
-					"f_src":[
-				        'https://img.alicdn.com/imgextra/i3/3350465491/TB16e7TbgMPMeJjy1XdXXasrXXa_!!0-item_pic.jpg_430x430q90.jpg',
-				        'https://gd4.alicdn.com/imgextra/i4/3038175542/O1CN011qoHSa8Nge3fM4j_!!3038175542.jpg_400x400.jpg_.webp',
-				        'https://img.alicdn.com/imgextra/i2/3350465491/O1CN01CIWSzD1qQvHuTR8zg_!!3350465491.jpg_430x430q90.jpg',
-				        'https://gd2.alicdn.com/imgextra/i1/3166984744/O1CN011kunP8ixa1pHiWm_!!3166984744.jpg_400x400.jpg_.webp'],"myalt":['白掌粉掌','铜钱草','龟背竹','风信子'],"f_name":["小清新","铜钱草","龟背竹","风信子"]
-			    },
-			    tu_src:{
-			    		"f_src":[
-					        'https://gd1.alicdn.com/imgextra/i1/3329824816/O1CN01Ejvjv71lRlwzFYinN_!!3329824816.jpg_400x400.jpg_.webp',
-					        'https://img.alicdn.com/imgextra/i1/2465746997/O1CN01vbxeYE21YfkrUCrlb_!!2465746997.jpg_430x430q90.jpg',
-					        'https://gd1.alicdn.com/imgextra/i4/2200575633656/O1CN01Dc9kPr1csUVEPUDYR_!!2200575633656.jpg_400x400.jpg_.webp',
-					        'https://img.alicdn.com/imgextra/i1/2465746997/TB23gbHc8USMeJjSspfXXX0VFXa_!!2465746997.jpg_430x430q90.jpg'],"myalt":['大丽花01','大丽花02','马蹄莲','大丽花04'],"f_name":["小清新","大丽花","马蹄莲","大丽花"]
-			    }
-	        },
-	        c_img2:{
-		        shui_src:{
-			        "f_src":[
-				        'https://gd3.alicdn.com/imgextra/i3/671770904/O1CN019U0UbC1IY4WlWb4vi_!!671770904.jpg_400x400.jpg_.webp',
-				        'https://gd2.alicdn.com/imgextra/i4/0/T1fNprFXXgXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp',
-				        'https://gd1.alicdn.com/imgextra/i4/383480227/O1CN0139mupg1DY0P3j1uFC_!!383480227.jpg_400x400.jpg',
-				        'https://gd2.alicdn.com/imgextra/i2/285407770/TB22K0TcwTqK1RjSZPhXXXfOFXa_!!285407770.jpg_400x400.jpg_.webp'],
-				        "myalt":['荷兰进口郁金香','文竹','富贵竹','空气凤梨 懒人无土植物'],"f_name":["荷兰进口郁金香","文竹","富贵竹","空气凤梨 懒人无土植物"]
-			        },
-			    tu_src:{
-			    	"f_src":[
-				        'https://gd4.alicdn.com/imgextra/i4/3329824816/O1CN01djlXCm1lRlx1fk1n4_!!3329824816.jpg_400x400.jpg_.webp',
-				        'https://gd1.alicdn.com/imgextra/i1/3329824816/O1CN01Zuk2ID1lRlx3JH6LD_!!3329824816.jpg_400x400.jpg_.webp',
-				        'https://gd2.alicdn.com/imgextra/i2/3329824816/O1CN01ubBEYg1lRlwuCv0S1_!!3329824816.jpg_400x400.jpg_.webp',
-				        'https://gd4.alicdn.com/imgextra/i4/2328489053/TB2gwMZaQSWBuNjSszdXXbeSpXa_!!2328489053.jpg_400x400.jpg_.webp'],"myalt":['大丽花01','大丽花02','大丽花03','大丽花04'],"f_name":["玫瑰","大丽花","大丽花","大丽花"]
-		        }
-	        },
-	        flag:1   
+	        flag:1 ,
+			flowerdata:[],
+			flowerdata1:[],
+			flowerdata2:[]
         }
 	},
 	methods:{
@@ -88,6 +62,27 @@ export default {
 			this.flag=e;
 			console.log(this.flag)
 		}
+	},
+	beforeCreate(){
+		let that=this;
+		let url="http://localhost:81/getdatabyajax"
+// 		$.post(url,function(data){
+// 			console.log(data)
+// 		})
+		axios.post(url)
+		.then(function(response){
+			for(let i=0;i<response.data.length;i++){
+				if(response.data[i].type=="花卉"){
+					that.flowerdata.push(response.data[i])
+					//console.log(that.flowerdata)
+				}
+			}
+			console.log(that.flowerdata)
+			that.flowerdata1=that.flowerdata.slice(0,3)
+			that.flowerdata2=that.flowerdata.slice(3,7)
+			console.log(that.flowerdata1)
+			console.log(that.flowerdata2)
+		})
 	}
 }
 </script>

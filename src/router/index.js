@@ -38,7 +38,14 @@ export default new Router({
 		{
 		  path: '/flower',
 		  name: 'flower',
-		  component: Flower
+		  component: Flower,
+				children:[
+				{
+					path: '/details',
+					name: 'details',
+					component: Details,
+				}
+			]
 		},
 		{
 		  path: '/home',
@@ -83,7 +90,14 @@ export default new Router({
 				{
 					path: '/details',
 					name: 'details',
-					component: Details
+					component: Details,
+					children:[
+						{
+							path: '/order_form',
+							name: 'order_form',
+							component: OrderForm
+						}
+					]
 				}
 			]
 		}

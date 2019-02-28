@@ -1,43 +1,32 @@
-﻿<template>
+<template>
   <div class="details">
 		<secondary-nav></secondary-nav>
 		<!-- 中间部分 -->
-		<section class="banner">
+		<section class="banner_2">
 			<div class="box_one">
 				<div class="banner-left">
 					<div class="big-img">
-						<img src="https://img.alicdn.com/imgextra/i3/3252508962/O1CN012G4e0WSvpU6Ao0D_!!0-item_pic.jpg_430x430q90.jpg" alt="">
+						<img :src="a">
 					</div>
 					<div class="small-img-box">
-						<div class="small-img">
-							<img src="" alt="">
-						</div>
-						<div class="small-img">
-							<img src="" alt="">
-						</div>
-						<div class="small-img">
-							<img src="" alt="">
-						</div>
-						<div class="small-img">
-							<img src="" alt="">
-						</div>
-						<div class="small-img">
-							<img src="" alt="">
+						<div class="small-img" v-for="(items,index) in smallImag" :key="index" @mouseenter="changeImg(index)">
+							<img :src="items" alt="">
 						</div>
 					</div>
 				</div>
 				<div class="banner-right">
-					<p class="info_1 describle">仙人球植物盆栽室内开花防辐射桌面仙人掌盆栽植物多肉植物仙人球</p>
+					<p class="info_1 describle">{{getdetails[0].name}}</p>
+					<p class="info_1 describle">{{getdetails[0].description}}</p>
 					<p class="info_2">保证成活 2盆送工具</p>
 					<!-- 价格区域 -->
 					<div class="price">
 						<div class="price_one">
 							<span class="del_price_str">价格</span>
-							<del class="del_price_num">￥11111</del><br>
+							<del class="del_price_num">￥{{getdetails[0].del_price}}</del><br>
 						</div>
 						<div class="price_two">
 							<span class="ins_price_str">促销价</span>
-							<span class="ins_price_num">￥22222</span>
+							<span class="ins_price_num">￥{{getdetails[0].ins_price}}</span>
 						</div>
 						<p class="discount">淘金币可抵扣商品价格2%</p>
 					</div>
@@ -77,7 +66,7 @@
 					</div>
 					<!-- 养殖方法 -->
 					<div class="feed">
-						这是商品的养殖方法
+						<p class="ways">{{getdetails[0].breed_ways}}</p>
 					</div>
 					<!-- 购物车部分 -->
 					<div class="shop">
@@ -87,7 +76,7 @@
 							<span>库存：9999</span>
 						</div>
 						<div class="car">
-							<el-button type="danger">加入购物车</el-button>
+							<el-button type="danger" @click="order()">加入购物车</el-button>
 						</div>
 					</div>
 				</div>
@@ -98,28 +87,66 @@
 </template>
 
 <script>
-	import {$,$$} from '../assets/js/base.js'
+	
 	import mainNav from '../components/main_nav'
 	import secondaryNav from '../components/secondary_nav'
 	import bottomFooter from '../components/bottom_footer.vue'
+	import $ from "jquery"
 	export default {
 		name: 'details',
 		components:{
 			mainNav,secondaryNav,bottomFooter
 		},
-		methods:{
-			
+		data:function(){
+			return {
+				a:"",
+				getdetails:"",
+				myid:"",
+				smallImg:[],
+				bigImg:[]
+			}
 		},
-		created: function(){
+		methods:{
+			order (){
+				this.$router.push({path: '/order_form'})
+			},
+			changeImg (aaa){
+				console.log(aaa)
+				console.log(this)
+				this.a=this.bigImg[aaa]
+				
+			}
+		},
+		beforeCreate(){
+			let that=this;
+			that.myid=that.$route.query.id
+			console.log(that.myid)
+			let url="http://localhost:81/getdetails?id="+that.myid+"&cb=?"
+			$.getJSON(url,function(result){
+				that.getdetails=result;
+				console.log(that.getdetails)
+				// 小图
+				let smallstr=that.getdetails[0].small_imgs
+				let imgarr1=smallstr.split(',')
+				that.smallImag=imgarr1
+				console.log(that.smallImag)
+				// 大图
+				let bigstr=that.getdetails[0].big_imgs
+				let imgarr2=bigstr.split(',')
+				that.bigImg=imgarr2
+				console.log(that.bigImg)
+				that.a=that.bigImg[0]
+			})
 			
 		}
 	}
 </script>
 
 <style>
-	.banner{
+	.banner_2{
 		width: 100%;
 		background-color: #333333;
+		margin-top: 20px;
 	}
 	.box_one{
 		width: 1200px;
@@ -135,7 +162,11 @@
 	.big-img{
 		width: 420px;
 		height: 420px;
-		background-color: lemonchiffon;
+		/* background-color: lemonchiffon; */
+	}
+	.big-img img{
+		width: 100%;
+		height: 100%;
 	}
 	.small-img-box{
 		width: 420px;
@@ -153,7 +184,7 @@
 	.banner-right{
 		width: 740px;
 		height: 500px;
-		background-color: skyblue;
+		background-color: lightgray;
 	}
 	.info_1{
 		font-size: 18px;
@@ -220,13 +251,13 @@
 	.feed{
 		width: 100%;
 		margin-top: 20px;
-		height: 200px;
-		background-color: lightcoral;
+		height: 180px;
+		background-color: #7a797940;
 	}
 	.shop{
 		width: 100%;
 		display: flex;
-		margin-top: 25px;
+		margin-top: 12px;
 		justify-content: space-around;
 	}
 	.change{
@@ -246,5 +277,11 @@
     background-color: #f56c6c;
     border-color: #f56c6c;
     width: 200px;
+	}
+	.ways{
+		width: 200px;
+		height: 80px;
+		margin: 0 auto;
+		margin-top: 20px;
 	}
 </style>
