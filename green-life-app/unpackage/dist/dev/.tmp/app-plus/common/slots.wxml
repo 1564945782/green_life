@@ -1,0 +1,7 @@
+<import src="/components/shuffling.vue.wxml" />
+<import src="/components/flower_nav.vue.wxml" />
+<import src="/components/flower_display_a.vue.wxml" />
+<import src="/components/flower_display_b.vue.wxml" />
+<import src="/components/hometop.vue.wxml" />
+<import src="/components/home_display.vue.wxml" />
+

@@ -79,8 +79,8 @@ export default {
 				}
 			}
 			console.log(that.flowerdata)
-			that.flowerdata1=that.flowerdata.slice(0,3)
-			that.flowerdata2=that.flowerdata.slice(3,7)
+			that.flowerdata1=that.flowerdata.slice(0,4)
+			that.flowerdata2=that.flowerdata.slice(4,8)
 			console.log(that.flowerdata1)
 			console.log(that.flowerdata2)
 		})

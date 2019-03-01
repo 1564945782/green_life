@@ -1,7 +1,7 @@
 ﻿<!-- 描述：这是vue脚手架提供的模板 -->
 <template>
   <section class="shuffling center">
-    <el-carousel :interval="3000" arrow="always" height="450px">
+    <el-carousel :interval="3000" arrow="always" height="450px" id="flower_shuffling" left="0px">
       <el-carousel-item v-for="(item,index) in 4" :key="item" :style="{backgroundImage:'url('+imgsrc[index]+')'}">
         
       </el-carousel-item>
@@ -33,7 +33,12 @@ export default {
   left: 0;
   right: 0;
 }
-.classification{
+#flower_shuffling{
+	position: relative;
+	width: 100%;
+	left: 0px;
+}
+/* .classification{
       width:1200px;
     }
   .classification ul{
@@ -42,7 +47,7 @@ export default {
     display:flex;
     align-items: center;
       justify-content: center;
-  }
+  } */
   .nav01 div{
     width: 100%;
       height: 3px;

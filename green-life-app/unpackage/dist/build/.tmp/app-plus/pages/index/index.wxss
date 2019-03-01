@@ -1,0 +1,169 @@
+
+.wrap{
+    width: 100%;
+}
+.banner{
+	text-align: center;
+    height: 227px;
+    background: url(../../static/img/f_home_banner_bg.8b9bf7f3.jpg) no-repeat fixed;
+    background-size: contain;
+}
+.banner ._h1{
+	color: #fff;
+	display: inline-block;
+	font: 900 35px "\5FAE\8F6F\96C5\9ED1";
+	margin-top: 20px;
+	border-bottom: 4px solid #fff;
+}
+.banner ._p{
+	color: #fff;
+	font-size: 12px;
+	margin-top: 15px;
+}
+.banner ._a{
+	display: inline-block;
+	color: #fff;
+	height: 50px;
+	width: 100px;
+	font: 700 24px/50px "\5FAE\8F6F\96C5\9ED1";
+	padding: 0 20px;
+	border: 2px solid #fff;
+	border-radius:25px;
+}
+.banner ._a:hover{
+	background: rgba(150,150,150,.3);
+}
+.banner [class^="circle"]{
+    height: 10px;
+    width: 10px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin: 20px 10px 0;
+    background: rgba(255, 255, 255, 0.16);
+    padding: 0px;
+}
+[class^="circle"]:hover{
+	background: rgba(100,100,100,.5);
+}
+.btn{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-content: center;
+	    -ms-flex-line-pack: center;
+	        align-content: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+}
+
+
+.display-goods{
+	display: inline-block;
+    /* height: 390px; */
+    width: 50%;
+    /* margin: 0 10px 20px; */
+    border-radius: 6px;
+    background: #fff;
+    overflow: hidden;
+    padding: 10px 0;
+}
+.display-goods ._a:hover{
+	text-decoration: underline;
+}
+.img-box{
+    display: block;
+    height: 240px;
+    width: 90%;
+    background: #ccc;
+    margin: auto;
+}
+.img-box ._img{
+    height: 100%;
+    width: 100%;
+}
+.description{
+    text-decoration: none;
+    display: block;
+    margin: 6px 5px 0;
+    line-height: 24px;
+    font-size: 16px;
+    color: #504f4f;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.price{
+    margin: 5px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.price ._del{
+    color: #76d25b;
+    font-size: 12px;
+}
+.price ._ins{
+    color: #56d25b;
+    font-weight: 600;
+    font-size: 16px;
+    margin-left: 10px;
+    text-decoration: none;
+}
+.price ._a{
+    float: right;
+    color: #999;
+    font-size: 16px;
+    margin-left: 10px;
+}
+.price ._a:hover{
+	color: #666;
+}
+
+
+.content {
+		text-align: center;
+	    margin: 0;
+	    color: #4caf50d1;
+}
+.logo{
+        height: 200rpx;
+        width: 200rpx;
+        margin-top: 200rpx;
+}
+.title {
+		font-size: 36rpx;
+		color: #8f8f94;
+}
+[class$="-est"]{
+		text-align: center;
+		/* height: 800px; */
+		background: #eee;
+}
+[class$="-est"] ._h2{
+		color: #56d25b;
+		padding: 15px 0;
+		text-align: center;
+		width: 100%;
+		background-size: cover;
+}
+.hot-est ._h2{		
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551033508106&di=1bcba8eaff061d2b6efe26e54bc932aa&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-12-02%2F5a2263b65ca0a.jpg) no-repeat fixed;
+}
+.new-est ._h2{		
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551033508107&di=33ddead123192c5a28304c0d0e2d4d2f&imgtype=0&src=http%3A%2F%2Fwww.xinjiadiy.com%2Fimages%2Farticle_img%2Ftuwen%2F20170509%2F4999.jpg) no-repeat fixed;
+}
+[class$="-est"] ._h2 ._span{
+		margin: 0 20px;
+}
+.load_more image{
+	    height: 20px;
+		width: 20px;
+}
+
