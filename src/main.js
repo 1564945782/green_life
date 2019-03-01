@@ -11,7 +11,7 @@ import axios from 'axios'
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false
-
+Vue.prototype.$ajax=axios
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

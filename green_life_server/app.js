@@ -33,7 +33,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'green_life',
+    database: 'green-life',
 	multipleStatements: true
 });
 mydb.connect();

@@ -14,7 +14,9 @@ import MyInfo from '../views/my_info'
 import OrderForm from '../views/order_form'
 import SearchEnd from '../views/search_end'
 import Feedback from '../views/feedback'
+import MeatClassifyDisplay from '../views/meat_classify_display'
 import MeatGoodsDisplay from '../components/meat_goods_display'
+import MeatClassify from '../components/meat_classify'
 
 Vue.use(Router)
 
@@ -100,6 +102,16 @@ export default new Router({
 					]
 				}
 			]
+		},
+		{
+			path: '/meat_classify_display',
+			name: 'meat_classify_display',
+			component: MeatClassifyDisplay
+		},
+		{
+		  path: '/meat_classify',
+		  name: 'meat_classify',
+		  component: MeatClassify
 		}
   ]
 })

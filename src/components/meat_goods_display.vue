@@ -14,7 +14,10 @@
 					<!-- 这里是商品信息 -->
 						<p class="item_name">【{{item.name}}】</p>
 						<p class="item_description">{{item.description}}</p>
-						<el-button type="success"  class="btn" @click="jump(item.id)">查看详情</el-button>
+						<div class="btn_box">
+							<el-button type="success"  class="btn" @click="jump(item.id)">查看详情</el-button>
+						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -91,6 +94,7 @@
 	.item_description{
 		font-size: 16px;
 		margin-top: 10px;
+		margin-bottom: 10px;
 		margin-left: 10px;
 	}
 	/* 按钮 */
@@ -98,6 +102,11 @@
 		color: #fff;
 		background-color: #f37272;
 		border-color: #f1488b;
+		margin: 0 auto;
+	}
+	.btn_box{
+		width: 100px;
+		height: 40px;
 		margin: 0 auto;
 	}
 </style>

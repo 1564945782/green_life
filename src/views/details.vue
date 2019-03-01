@@ -181,6 +181,10 @@
 		background-color: lightcoral;
 		margin: 0 auto;
 	}
+	.small-img img{
+		width: 100%;
+		height: 100%;
+	}
 	.banner-right{
 		width: 740px;
 		height: 500px;

@@ -25,11 +25,16 @@
 			</div>
 		</div>
 		<!-- 中间第二部分 -->
-		<div class="type">
+		<!-- 这是多肉分类的组件 -->
+		<meat-classify :meatC="meatClass"></meat-classify>
+		
+		<!-- <div class="type">
 			<div class="box_two">
-				<div class="type-item one">
-					
-				</div>
+				<router-link to='/meat_classify'></router-link>
+					<div class="type-item one">
+						
+					</div>
+				</router-link>
 				<div class="type-item">
 					<img src="http://y.hy755.cn/6400/diy/pics/20170717/1500268616.jpg" alt="">
 				</div>
@@ -40,8 +45,8 @@
 					<img src="http://y.hy755.cn/6400/diy/pics/20170717/1500268673.jpg" alt="">
 				</div>
 			</div>
-		</div>
-		<div class="type">
+		</div> -->
+		<!-- <div class="type">
 			<div class="box_two">
 				<div class="type-item">
 					<img src="http://y.hy755.cn/6400/diy/pics/20170717/1500268396.jpg" alt="">
@@ -54,7 +59,7 @@
 				<div class="type-item four">
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<!-- 过度部分 -->
 		<div class="excessive">
 				<div class="line"></div>
@@ -102,6 +107,7 @@
 	import $ from "jquery"
 	import mainNav from '../components/main_nav'
 	import meatGoodsDisplay from '../components/meat_goods_display.vue'
+	import MeatClassify from '../components/meat_classify.vue'
 	import bottomFooter from '../components/bottom_footer.vue'
 	import Meat_card1 from '../assets/img/meat-card1.jpg'
 	import Meat_card2 from '../assets/img/meat-card2.jpg'
@@ -113,12 +119,17 @@
 		name: 'moremeat',
 		props:["currUser"],
 		components:{
-			mainNav,meatGoodsDisplay,bottomFooter
+			mainNav,
+			MeatClassify,
+			meatGoodsDisplay,
+			bottomFooter
 		},
 		data(){
 			return {
 				items:[Meat_card1,Meat_card2,Meat_card3,Meat_card4,Meat_card5,Meat_card6],
-				moreMeat:[]
+				moreMeat:[],
+				MeatArr:[],
+				meatClass:[]
 			}
 		},
 		beforeCreate(){
@@ -127,14 +138,20 @@
 			$.getJSON(url,function(result){
 				for(let i=0;i<result.length;i++){
 					if(result[i].type=="多肉"){
-						that.moreMeat.push(result[i])
+						that.MeatArr.push(result[i]);
+						that.moreMeat=that.MeatArr.slice(0,3)
+					}
+				}
+				// console.log(result)
+				for(let j=0;j<result.length;j++){
+					if(result[j].type=="多肉"){
+						that.meatClass.push(result[j])
 					}
 				}
 			})
 		}
 	}
 </script>
-
 <style>
 	.el-carousel__item--card {
 		width: 450px;
