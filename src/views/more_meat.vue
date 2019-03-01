@@ -1,6 +1,6 @@
 <template>
   <div class="moremeat">
-		<main-nav></main-nav>
+		<main-nav :curUser="currUser"></main-nav>
 		<section class="banner_1">
 			<div class="banner_box">
 				<el-carousel :interval="4000" type="card" height="300px">
@@ -111,6 +111,7 @@
 	import Meat_card6 from '../assets/img/meat-card6.jpg'
 	export default {
 		name: 'moremeat',
+		props:["currUser"],
 		components:{
 			mainNav,meatGoodsDisplay,bottomFooter
 		},

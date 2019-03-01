@@ -1,6 +1,6 @@
 <template>
 <div class="flower">
-	<main-nav></main-nav>	
+	<main-nav :curUser="currUser"></main-nav>	
 	<flower-shuffling></flower-shuffling>
 	<flower-nav @change="mychange"></flower-nav>
 	<flower-displaya :mydata="(flag==1)?mydata.shui_data:mydata.tu_data"></flower-displaya>
@@ -31,6 +31,7 @@ export default {
 	components:{
 		mainNav,flowerDisplaya,flowerNav,flowerShuffling,flowerDisplayb,bottomFooter
 	},
+	props:["currUser"],
 	data(){
 		return {
 			mydata:{

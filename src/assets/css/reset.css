@@ -4,6 +4,7 @@
 }
 button,[type="button"],[type="submit"],[class$="btn"]{
 	cursor: pointer;
+	outline: none;
 }
 .clear:after{
 	display: block;

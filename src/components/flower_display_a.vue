@@ -18,6 +18,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: 'flowerDisplaya',
   data(){

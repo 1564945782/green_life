@@ -1,9 +1,8 @@
 <template>
   <div class="orderform">
-		<main-nav></main-nav>
+		<main-nav :curUser="currUser"></main-nav>
 		<div class="banner_box">
 			<div class="car_box">
-				
 				<div class="car_list">
 					<img src="" alt="">
 					<div class="car_text_box">
@@ -34,6 +33,7 @@
 	import mainNav from '../components/main_nav'
 	export default {
 		name: 'orderform',
+		props:["currUser"],
 		components:{
 			mainNav
 		},

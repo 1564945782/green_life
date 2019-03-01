@@ -10,7 +10,9 @@
 				<li><router-link to="/bionic">仿生盆栽</router-link></li>
 				<li><router-link to="/feedback">反馈</router-link></li>
 			</ul>
-			<div class="head-img"><router-link to="/my_info"></router-link></div>
+			<div class="head-img">
+				<router-link to="/my_info"><img :src="curUser.head_img" /></router-link>
+			</div>
 			<ul class="right-ul">
 				<li><router-link to="/login">登录</router-link></li>
 				<li><router-link to="/order_form">购物车(0)</router-link></li>
@@ -28,8 +30,12 @@
 		name: 'main_nav',
 		data () {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+				
 			}
+		},
+		props:["curUser"],
+		mounted(){
+			
 		}
 	}
 </script>
@@ -90,7 +96,12 @@
 		margin: 2px 20px 2px;
 		border: 1px solid #ccc;
 		border-radius: 50%;
-		background: url(../assets/img/f_basic_icon.jpg) no-repeat -40px -42px/450%;
+		overflow: hidden;
+		background: url(../assets/img/f-user-icon.png) no-repeat 0 0/34px 34px;
+	}
+	.head-img img{
+		height: 100%;
+		width: 100%;
 	}
 	.head-img:hover{
 		border: 1px solid #56d25b;

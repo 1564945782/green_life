@@ -20,8 +20,11 @@ label{
 #base-info label{
 	margin-right: 30px;
 }
-[name="name"],[name="del_price"],[name="ins_price"],[name="sells"],[name="inventory"]{
-	width: 100px;
+[name="name"]{
+	width: 110px;
+}
+[name="del_price"],[name="ins_price"],[name="sells"],[name="inventory"]{
+	width: 60px;
 }
 #img-url input{
 	width: 440px;

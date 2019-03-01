@@ -1,6 +1,6 @@
-﻿<template>
+<template>
   <div class="bionic">
-		<main-nav></main-nav>
+		<main-nav :curUser="currUser"></main-nav>
 		<div class="top">
 			<div class="top_child">
 				<div class="top_child01"><img :src="top_img.bio_src[0]" :alt="top_img.bio_alt[0]" :title="top_img.bio_name[0]"></div>
@@ -27,6 +27,7 @@
 		components:{
 			mainNav,flowerDisplayb,flowerNav,meatGoodsDisplay,bottomFooter
 		},
+		props:["currUser"],
 		data(){
 			return {
                 top_img:{

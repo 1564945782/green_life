@@ -1,7 +1,7 @@
 <!-- 描述：商品陈列（展示），包含说明，价格，图片展示 -->
 <template>
 	<div class="display-goods">
-		<a href="#" class="img-box"><img :src="singleData.big_imgs.split(',')[0]" /></a>
+		<a href="#" class="img-box"><img :src="singleData.big_imgs.split(',')[0]" alt="图片走丢了" /></a>
 		<div class="txt-box">
 			<a href="#" class="description"><b>【{{singleData.name}}】</b><span>{{singleData.description}}</span></a>
 			<div class="price">
@@ -18,14 +18,11 @@
 		name: 'home_display',
 		data: function(){
 			return {
-				
+				single:this.singleData
 			}
 		},
 		props:["singleData"],
-		beforeCreate:function(){
-			
-		},
-		created:function(){
+		mounted() {
 			
 		}
 	}
@@ -54,6 +51,12 @@
 	}
 	.img-box img{
 		height: 300px;
+		box-sizing: border-box;
+		border: 1px solid #fff;
+	}
+	.img-box img:hover{
+		box-sizing: content-box;
+		border: 0;
 	}
 	.description{
 		display: block;

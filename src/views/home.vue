@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-		<main-nav></main-nav>
-		<section class="banner">
+		<main-nav :curUser="currUser"></main-nav>
+		<section class="f-banner">
 			<h1>买盆栽，就找萌芽小镇</h1>
 			<p>将绿意带回日常家居、办公，享受健康生活</p>
 			<button type="button" class="arrow-left"><</button>
@@ -17,15 +17,15 @@
 		</section>
 		<div class="take-space">
 			<p><b>一抹绿意，带给您不一样的清新</b><p>
-			<p></p>
+			<p>一抹绿意，一份绿色的心情————又是美好的一天</p>
 		</div>
 		<section class="hot-est">
 			<h2>○<span>最热</span>○</h2>
 			<home-display v-for="(item,index) in goodsData.slice(2, 10)" :singleData="item"></home-display>
-		</section>
+		</section> 
 		<div class="take-space">
-			<p><b></b><p>
-			<p></p>
+			<p><b>绿色生活，享受健康生活</b><p>
+			<p>清晨的第一缕眼光，伴随暖暖绿意，把你唤醒————致美好生活的样子</p>
 		</div>
 		<section class="recommend-est">
 			<h2>○<span>推荐</span>○</h2>
@@ -46,9 +46,10 @@
 		name: 'home',
 		data:function(){
 			return {
-				goodsData:""
+				goodsData:"",
 			}
 		},
+		props:["currUser"],
 		components:{
 			mainNav,
 			bottomFooter,
@@ -59,7 +60,13 @@
 			let url="http://localhost:81/getgoodsdata?cb=?"
 			$.getJSON(url,function(result){
 				that.goodsData=result;
-				console.log(that.goodsData)
+				
+				for(var i=0;i<that.goodsData.length;i++){
+					if(that.goodsData[i].type=="花卉"){
+						console.log(that.goodsData[i].big_imgs.split(",")[0])
+					}
+				}
+				
 			})
 		}
 	}
@@ -70,12 +77,12 @@
 		height: 1000px;
 		width: 100%;
 	}
-	.banner{
+	.f-banner{
 		text-align: center;
 		height: 600px;
 		background: url(../assets/img/f_home_banner_bg.jpg) no-repeat fixed left -100px/100%;
 	}
-	.banner h1{
+	.f-banner h1{
 		color: #fff;
 		display: inline-block;
 		font: 900 50px "微软雅黑";
@@ -83,12 +90,12 @@
 		margin-top: 120px;
 		border-bottom: 4px solid #fff;
 	}
-	.banner p{
+	.f-banner p{
 		color: #fff;
 		font-size: 18px;
 		margin-top: 10px;
 	}
-	.banner [class^="arrow"]{
+	.f-banner [class^="arrow"]{
 		color: #fff;
 		height: 80px;
 		width: 80px;
@@ -110,7 +117,7 @@
 		float: right;
 		margin-right: 60px;
 	}
-	.banner a{
+	.f-banner a{
 		display: inline-block;
 		color: #fff;
 		height: 50px;
@@ -121,10 +128,10 @@
 		border: 2px solid #fff;
 		border-radius:25px;
 	}
-	.banner a:hover{
+	.f-banner a:hover{
 		background: rgba(150,150,150,.3);
 	}
-	.banner [class^="circle"]{
+	.f-banner [class^="circle"]{
 		height: 20px;
 		width: 20px;
 		border: 2px solid #fff;
@@ -144,6 +151,23 @@
 	}
 	.take-space:nth-of-type(2){
 		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551033508107&di=33ddead123192c5a28304c0d0e2d4d2f&imgtype=0&src=http%3A%2F%2Fwww.xinjiadiy.com%2Fimages%2Farticle_img%2Ftuwen%2F20170509%2F4999.jpg) no-repeat fixed left top/100%;
+	}
+	.take-space p{
+		color: #fff;
+		font-size: 18px;
+		text-align: center;
+	}
+	.take-space p:first-child{
+		position: relative;
+		top: 110px;
+	}
+	.take-space p:last-child{
+		position: relative;
+		top: 130px;
+	}
+	.take-space b{
+		font: 700 32px/50px "微软雅黑";
+		border-bottom: 1px solid #fff;
 	}
 	[class$="-est"]{
 		text-align: center;

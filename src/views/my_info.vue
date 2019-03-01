@@ -1,6 +1,6 @@
 <template>
   <div class="myinfo">
-		<main-nav></main-nav>
+		<main-nav :curUser="currUser"></main-nav>
 		myinfo
   </div>
 </template>
@@ -10,6 +10,7 @@
 	import mainNav from '../components/main_nav'
 	export default {
 		name: 'myinfo',
+		props:["currUser"],
 		components:{
 			mainNav
 		}

@@ -9,7 +9,8 @@
 		<form action="/add_goods" method="post">
 			<fieldset id="base-info">
 				<legend>基本信息</legend>
-				<label>类型：<select name="type"><option>花卉</option><option>多肉</option><option>仿生植物</option></select></label>
+				<label>类型：<select id="type" name="type"><option>花卉</option><option>多肉</option><option>仿生植物</option></select></label>
+				<label>细分类：<select id="classify" name="classify"><option>花卉1</option><option>花卉2</option></select></label>
 				<label>名字：<input name="name" type="text" placeholder="盆栽的具体名字" required="required"/></label>
 				<label>原价：<input name="del_price" type="text" placeholder="保留一位小数" value="32.8" /></label>
 				<label>现价：<input name="ins_price" type="text" placeholder="保留一位小数" value="28.5" /></label>
@@ -30,5 +31,34 @@
 			</fieldset>
 			<input type="submit" value="提交" />
 		</form>
+		<script>
+			//添加货物时类型一栏选择花卉,多肉,仿生时,细分类一栏给出相应的变化
+			var type=document.querySelector("#type");
+			var classify=document.querySelector("#classify");
+			var one=document.querySelectorAll("#classify option")[0];
+			var two=document.querySelectorAll("#classify option")[1];
+			type.onchange=function(){
+				switch(this.value){
+					case '花卉': flower(); break;
+					case '多肉': moreMeat(); break;
+					case '仿生植物': bionic(); break;
+				}
+				function flower(){
+					one.innerHTML="花卉1";
+					two.innerHTML="花卉2";
+					classify.parentNode.style.display="inline-block";
+				}
+				function moreMeat(){
+					one.innerHTML="多肉1";
+					two.innerHTML="多肉2";
+					classify.parentNode.style.display="inline-block";
+				}
+				function bionic(){
+					one.innerHTML="";
+					two.innerHTML="";
+					classify.parentNode.style.display="none";
+				}
+			}
+		</script>
 	</body>
 </html>

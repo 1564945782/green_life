@@ -1,18 +1,18 @@
 <template>
   <div class="feedback">
-		<main-nav></main-nav>
+		<main-nav :curUser="currUser"></main-nav>
 		<div class="feedback_box">
 			<div class="feed_box">
 				<el-input
 				  type="textarea"
 				  :rows="2"
-				  placeholder="è¯·è¾“å…¥å†…å®¹"
+				  placeholder="ÇëÊäÈëÄÚÈİ"
 				  v-model="textarea">
 				</el-input>
-					<!-- æŒ‰é’® -->
+					<!-- °´Å¥ -->
 					<el-row>
-					  <el-button type="primary">å‘è¡¨</el-button>
-					  <el-button type="info">æ¸…ç©º</el-button>
+					  <el-button type="primary">·¢±í</el-button>
+					  <el-button type="info">Çå¿Õ</el-button>
 					</el-row>
 			
 			</div>
@@ -25,6 +25,7 @@
 	import mainNav from '../components/main_nav'
 	export default {
 		name: 'feedback',
+		props:["currUser"],
 		components:{
 			mainNav
 		}

@@ -4,7 +4,6 @@ function $(selector){
 function $$(selector){
 	return document.querySelectorAll(selector);
 }
-
 //首页左侧菜单折叠效果
 var menuH2s=$$(".leftnav h2");
 for(var i=0;i<menuH2s.length;i++){
