@@ -8,7 +8,7 @@
 			uni.request({
 				url: 'http://localhost:81/getgoodsdata',
 				success: (res) => {
-					console.log("App.nue--------------------发起qingqiu");
+					console.log("App.nue--------------------发起qingqiu",res.data);
 					this.globalMusicList=res.data;
 					return res.data
 				}

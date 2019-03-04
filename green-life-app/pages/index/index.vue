@@ -77,6 +77,7 @@
 		onLoad() {
 			console.log("index-------------监听页面加载 ")
 			this.goodsData=globalData.globalMusicList
+			console.log(this.goodsData)
 		},
 
 		onShow() {
@@ -90,13 +91,11 @@
 		},
 
 		onHide() {
-
 			console.log("监听页面隐藏 ")
 
 		},
 
 		onUnload() {
-
 			console.log("监听页面卸载 ")
 
 		},

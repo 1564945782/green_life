@@ -6,15 +6,15 @@
             "style" : {
                 "navigationBarTitleText" : "首页",
                 "navigationBarBackgroundColor" : "#C4EDCB",
-                "navigationBarTextStyle":"white"
+                "navigationBarTextStyle" : "white"
             }
         },
-		{
+        {
             "path" : "pages/find/find",
             "style" : {
                 "navigationBarTitleText" : "分类",
                 "navigationBarBackgroundColor" : "#C4EDCB",
-                "navigationBarTextStyle":"white"
+                "navigationBarTextStyle" : "white"
             }
         },
         {
@@ -22,7 +22,7 @@
             "style" : {
                 "navigationBarTitleText" : "购物车",
                 "navigationBarBackgroundColor" : "#C4EDCB",
-                "navigationBarTextStyle":"white"
+                "navigationBarTextStyle" : "white"
             }
         },
         {
@@ -30,8 +30,12 @@
             "style" : {
                 "navigationBarTitleText" : "我的",
                 "navigationBarBackgroundColor" : "#C4EDCB",
-				"navigationBarTextStyle":"white"
+                "navigationBarTextStyle" : "white"
             }
+        },
+        {
+            "path" : "pages/details/details",
+            "style" : {}
         }
     ],
     "globalStyle" : {
