@@ -3,9 +3,9 @@
 		<main-nav :curUser="currUser"></main-nav>
 		<div class="top">
 			<div class="top_child">
-				<div class="top_child01"><img :src="top_img.bio_src[0]" :alt="top_img.bio_alt[0]" :title="top_img.bio_name[0]"></div>
-				<div class="top_child02"><img :src="top_img.bio_src[1]" :alt="top_img.bio_alt[1]" :title="top_img.bio_name[1]"></div>
-				<div class="top_child03"><img :src="top_img.bio_src[2]" :alt="top_img.bio_alt[2]" :title="top_img.bio_name[2]"></div>
+				<div class="top_child01"><img :src="top_img.bio_src[0]" :alt="top_img.bio_alt[0]" :title="top_img.bio_name[0]" @click="jump(bionic_top[0].id)"></div>
+				<div class="top_child02"><img :src="top_img.bio_src[1]" :alt="top_img.bio_alt[1]" :title="top_img.bio_name[1]" @click="jump(bionic_top[1].id)"></div>
+				<div class="top_child03"><img :src="top_img.bio_src[2]" :alt="top_img.bio_alt[2]" :title="top_img.bio_name[2]" @click="jump(bionic_top[2].id)"></div>
 			</div>
 		</div>
 		<div class="excessive">
@@ -51,6 +51,12 @@
 			meatGoodsDisplay,
 			bottomFooter
 		},
+		methods:{
+			jump(m){
+				console.log(m);
+				this.$router.push({path: '/details?id='+m})
+			}
+		},
 		beforeCreate() {
 			let that = this;
 			let url = "http://localhost:81/getdatabyajax"
@@ -64,12 +70,14 @@
 					console.log(that.flowerdata)
 					that.flowerdata1 = that.flowerdata.slice(0, 4)
 					that.moreMeat = that.flowerdata.slice(4, 7)
+					that.bionic_top = that.flowerdata.slice(7, 10)
 					console.log(that.flowerdata1)
 				})
 		},
 		props: ["currUser"],
 		data() {
 			return {
+				bionic_top:[],
 				moreMeat:[],
 				flowerdata:[],
 				flowerdata1:[],
@@ -79,18 +87,8 @@
 						'https://img.alicdn.com/imgextra/i4/3064978740/TB2I_vKl8smBKNjSZFFXXcT9VXa_!!3064978740.jpg_430x430q90.jpg',
 						'https://img.alicdn.com/imgextra/i4/2264215783/TB2NAubhFXXXXXrXXXXXXXXXXXX_!!2264215783.jpg_430x430q90.jpg'
 					],
-					"bio_alt": ['大丽花01', '大丽花02', '大丽花03'],
-					"bio_name": ["小清新", "大丽花", "大丽花"]
-				},
-				tu_src: {
-					"f_src": [
-						'https://gd1.alicdn.com/imgextra/i1/3329824816/O1CN01Ejvjv71lRlwzFYinN_!!3329824816.jpg_400x400.jpg_.webp',
-						'https://img.alicdn.com/imgextra/i1/2465746997/O1CN01vbxeYE21YfkrUCrlb_!!2465746997.jpg_430x430q90.jpg',
-						'https://gd1.alicdn.com/imgextra/i4/2200575633656/O1CN01Dc9kPr1csUVEPUDYR_!!2200575633656.jpg_400x400.jpg_.webp',
-						'https://img.alicdn.com/imgextra/i1/2465746997/TB23gbHc8USMeJjSspfXXX0VFXa_!!2465746997.jpg_430x430q90.jpg'
-					],
-					"myalt": ['大丽花01', '大丽花02', '马蹄莲', '大丽花04'],
-					"f_name": ["小清新", "大丽花", "马蹄莲", "大丽花"]
+					"bio_alt": ['小清新', '炽热', '柔和'],
+					"bio_name": ["小清新", "炽热", "柔和"]
 				}
 			}
 		}
@@ -127,7 +125,10 @@
 		width: 100%;
 		height: 100%;
 	}
-
+	.top_child img:hover{
+		opacity: 0.9;
+		transition: all .3s ease-in;
+		}
 	.top_child01 {
 		width: 30%;
 		height: 250px;

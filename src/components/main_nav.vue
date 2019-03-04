@@ -1,52 +1,90 @@
 <!-- 描述：主菜单导航条 -->
 <template>
-  <header class="main-nav clear">
+	<header class="main-nav clear">
 		<div class="logo">Green Life</div>
 		<div class="nav">
 			<ul class="left-ul clear">
-				<li><router-link to="/home">首页</router-link></li>
-				<li><router-link to="/flower">花卉</router-link></li>
-				<li><router-link to="/more_meat">多肉</router-link></li>
-				<li><router-link to="/bionic">仿生盆栽</router-link></li>
-				<li><router-link to="/feedback">反馈</router-link></li>
+				<li>
+					<router-link to="/home">首页</router-link>
+				</li>
+				<li>
+					<router-link to="/flower">花卉</router-link>
+				</li>
+				<li>
+					<router-link to="/more_meat">多肉</router-link>
+				</li>
+				<li>
+					<router-link to="/bionic">仿生盆栽</router-link>
+				</li>
+				<li>
+					<router-link to="/feedback">反馈</router-link>
+				</li>
 			</ul>
 			<div class="head-img">
-				<router-link to="/my_info"><img :src="curUser.head_img" /></router-link>
+				<div @click="checkimg"><img :src="curUser.head_img" /></div>
 			</div>
 			<ul class="right-ul">
-				<li><router-link to="/login">登录</router-link></li>
-				<li><router-link to="/order_form">购物车(0)</router-link></li>
+				<li>
+					<router-link to="/login">{{curUser.id?'退出':'登录'}}</router-link>
+				</li>
+				<li>
+					<router-link to="/order_form">购物车(0)</router-link>
+				</li>
 			</ul>
 			<div class="search">
 				<input type="search" placeholder="你可以在这里搜索本店的全部商品" />
 				<input type="button" value="搜索" />
 			</div>
 		</div>
-  </header>
+	</header>
 </template>
 
 <script>
 	export default {
 		name: 'main_nav',
-		data () {
+		data() {
 			return {
-				
+
 			}
 		},
-		props:["curUser"],
-		mounted(){
-			
+		props: ["curUser"],
+		mounted() {
+
+		},
+		methods: {
+			checkimg() {
+				let _this=this
+				console.log(55)
+				if (!_this.curUser.id) {
+					console.log(66666666);
+					_this.$alert('请登录', '温馨提示', {
+						confirmButtonText: '确定',
+						callback: action => {
+							_this.$message({
+								type: 'info',
+								message: `action: ${ action }`
+							});
+						}
+					});
+				} else {
+					console.log(_this.curUser.id);
+					_this.$router.push({
+						path: '/my_info'
+					})
+				}
+			}
 		}
 	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-	.main-nav{
+	.main-nav {
 		height: 90px;
 		background: #fff;
 	}
-	.logo{
+
+	.logo {
 		color: #56d25b;
 		text-align: center;
 		float: left;
@@ -54,12 +92,14 @@
 		width: 18%;
 		font: 600 30px/90px Economica;
 	}
-	.nav{
+
+	.nav {
 		float: right;
 		width: 80%;
 		height: 40px;
 	}
-	.nav li{
+
+	.nav li {
 		display: block;
 		float: left;
 		padding: 0 3px;
@@ -67,28 +107,35 @@
 		height: 40px;
 		line-height: 40px;
 	}
-	.nav a{
+
+	.nav a {
 		color: #000;
 		padding: 2px 0;
 		font: 400 18px/30px "微软雅黑";
 	}
-	.left-ul{
+
+	.left-ul {
 		float: left;
 	}
-	.right-ul{
+
+	.right-ul {
 		float: right;
 	}
-	.left-ul li:nth-child(1) a{
+
+	.left-ul li:nth-child(1) a {
 		border-bottom: 2px solid #b2d430;
 	}
-	.left-ul a:hover{
+
+	.left-ul a:hover {
 		color: #b2d430;
 		border-bottom: 2px solid #b2d430;
 	}
-    .right-ul a:hover{
+
+	.right-ul a:hover {
 		color: #56d25b;
 	}
-	.head-img{
+
+	.head-img {
 		cursor: pointer;
 		float: right;
 		height: 34px;
@@ -99,14 +146,17 @@
 		overflow: hidden;
 		background: url(../assets/img/f-user-icon.png) no-repeat 0 0/34px 34px;
 	}
-	.head-img img{
+
+	.head-img img {
 		height: 100%;
 		width: 100%;
 	}
-	.head-img:hover{
+
+	.head-img:hover {
 		border: 1px solid #56d25b;
 	}
-	.search{
+
+	.search {
 		font-size: 0;
 		height: 40px;
 		width: 100%;
@@ -114,26 +164,30 @@
 		text-align: center;
 		margin-top: 4px;
 	}
-	.search input{
+
+	.search input {
 		font-size: 16px;
 		vertical-align: top;
 		height: 40px;
 	}
-	.search [type="search"]{
+
+	.search [type="search"] {
 		width: 450px;
 		border: 1px solid #b2d430;
 		border-radius: 6px 0 0 6px;
 		padding: 0 5px;
 		outline: none;
 	}
-	.search [type="button"]{
+
+	.search [type="button"] {
 		color: #fff;
 		padding: 0 10px;
 		border: 0;
 		border-radius: 0 6px 6px 0;
-		background:  #b2d430;
+		background: #b2d430;
 	}
-	.search [type="button"]:hover{
+
+	.search [type="button"]:hover {
 		background: #82d430;
 	}
 </style>

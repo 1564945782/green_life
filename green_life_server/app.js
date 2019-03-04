@@ -50,6 +50,7 @@ app.set('view engine','html');        //注册模板引擎到express
 /*******************前端请求数据的路由*************************/
 //获取所有商品信息
 app.get('/getgoodsdata',(req,res)=>{
+	console.log("商品信息");
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
@@ -75,6 +76,23 @@ app.post('/getdatabyajax',(req,res)=>{
 		}
 	})
 })
+
+//前端请求用户信息
+app.get('/userdata',(req,res)=>{
+	console.log(req.query.id)
+	let id=req.query.id;
+	let sql="select * from user_info where id=?";
+	mydb.query(sql,id,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else if(result.length!=0){
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
+		}else{
+			res.send("There is no users!");
+		}
+	})	
+})
+
 //用户登录
 app.post('/user_login',(req,res)=>{
 	let body=req.body;
@@ -107,6 +125,21 @@ app.post('/user_regist',(req,res)=>{
 					res.send("regist success!");
 				}
 			})
+		}
+	})
+})
+
+//用户信息修改
+app.get('/changeuser',(req,res)=>{
+	console.log(req.query)
+	console.log(req.query.id)
+	console.log(req.query.name)
+	let sql="update user_info set nickname=?,tel=?,head_img=? where id=?";
+	mydb.query(sql,[req.query.name,req.query.tel,req.query.imgs,req.query.id],(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
 		}
 	})
 })
