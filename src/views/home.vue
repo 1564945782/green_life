@@ -46,7 +46,7 @@
 		name: 'home',
 		data:function(){
 			return {
-				goodsData:"",
+				goodsData:""
 			}
 		},
 		props:["currUser"],

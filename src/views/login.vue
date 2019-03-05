@@ -32,7 +32,7 @@
 				</label>
 				<label>
 					<span><img src="../assets/img/f-password-icon.png" /></span>
-					<input type="password" name="pwd" placeholder="密码固定6位,建议使用字母+数字组合" v-model="pwdRegistVal" @change="checkPwd" />
+					<input type="password" name="pwd" placeholder="密码固定6位,建议使用字母+数字组合" v-model="pwdRegistVal" @change="checkRegistPwd" />
 				</label>
 				<label>
 					<span><img src="../assets/img/f-tel-icon.png" /></span>
@@ -92,6 +92,13 @@
 					alert("密码位数只能为6位！\n密码字符只能为数字和字母！")
 				}
 			},
+			checkRegistPwd:function(){
+				let pwdRegistVal=this.pwdRegistVal;
+				let regRegistPwd=/^[a-zA-Z0-9]{6}$/;
+				if(!regRegistPwd.test(pwdRegistVal)){
+					alert("密码位数只能设置为6位！\n密码字符只能为纯数字或纯字母或数字字母组合！")
+				}
+			},
 			//刷新验证码
 			refreshCode:function (){
 			    this.codeImgSrc='http://localhost:81/getcode?_'+new Date();
@@ -109,13 +116,12 @@
 						code:this.codeVal
 					}))
 					.then(function (response) {
-						if(response.data=="name and passward not match!"){alert("账号和密码不匹配！\n您可能账号或密码输入错误！")}
+						if(response.data.feedback=="name and passward not match!"){alert("账号和密码不匹配！\n您可能账号或密码输入错误！")}
 						else if(response.data.feedback=="code err!"){alert("验证码输入错误！")}
 						else if(response.data.feedback=="login success!"){
 							that.$router.push({path:'/'});
 							that.loginUser=response.data.data[0];
 							that.$emit('getCurrentUser',that.loginUser);
-							console.log("子组件传值：",that.loginUser)
 						}
 					})
 					.catch(function (error) {

@@ -17,7 +17,6 @@
 						<div class="btn_box">
 							<el-button type="success"  class="btn" @click="jump(item.id)">查看详情</el-button>
 						</div>
-						
 					</div>
 				</div>
 			</div>

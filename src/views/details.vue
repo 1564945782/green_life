@@ -71,12 +71,11 @@
 					<!-- 购物车部分 -->
 					<div class="shop">
 						<div class="change">
-							<input class="inp" type="number"/>
-							<span >件</span>
-							<span>库存：9999</span>
+							购买数量：<input class="inp" type="number" @input="numInpHint" v-model="goodsNum"/><br />
+							<span>库存量：{{getdetails[0].inventory}}</span>
 						</div>
 						<div class="car">
-							<el-button type="danger" @click="order()">加入购物车</el-button>
+							<el-button type="danger" @click="addToCar">添加到购物车</el-button>
 						</div>
 					</div>
 				</div>
@@ -87,13 +86,14 @@
 </template>
 
 <script>
-	
 	import mainNav from '../components/main_nav'
 	import secondaryNav from '../components/secondary_nav'
 	import bottomFooter from '../components/bottom_footer.vue'
 	import $ from "jquery"
+	import axios from "axios"
 	export default {
-		name: 'details',
+		name: 'detail',
+		props:["currUser"],
 		components:{
 			mainNav,secondaryNav,bottomFooter
 		},
@@ -102,42 +102,54 @@
 				a:"",
 				getdetails:"",
 				myid:"",
+				goodsNum:0,
 				smallImg:[],
 				bigImg:[]
 			}
 		},
 		methods:{
-			order (){
-				this.$router.push({path: '/order_form'})
+			addToCar(){
+				if(this.currUser!=""){    //如果已经登录
+					axios.get('http://localhost:81/addtocar',{
+						params: {'userId': this.currUser.id, "goodsNum":this.goodsNum,'goodsId':this.myid}
+					})
+					.then(function (response) {
+						console.log(response)
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				}else{alert("请先登录！")}
+			},
+			numInpHint(){
+				if(this.goodsNum<0){
+					this.goodsNum=0;
+					alert("商品数量不能小于0");
+				}
 			},
 			changeImg (aaa){
-				console.log(aaa)
-				console.log(this)
 				this.a=this.bigImg[aaa]
-				
 			}
 		},
-		beforeCreate(){
+		mounted(){
 			let that=this;
 			that.myid=that.$route.query.id
-			console.log(that.myid)
 			let url="http://localhost:81/getdetails?id="+that.myid+"&cb=?"
 			$.getJSON(url,function(result){
 				that.getdetails=result;
-				console.log(that.getdetails)
+				// console.log(that.getdetails)
 				// 小图
 				let smallstr=that.getdetails[0].small_imgs
 				let imgarr1=smallstr.split(',')
 				that.smallImag=imgarr1
-				console.log(that.smallImag)
+				// console.log(that.smallImag)
 				// 大图
 				let bigstr=that.getdetails[0].big_imgs
 				let imgarr2=bigstr.split(',')
 				that.bigImg=imgarr2
-				console.log(that.bigImg)
+				// console.log(that.bigImg)
 				that.a=that.bigImg[0]
 			})
-			
 		}
 	}
 </script>
@@ -255,7 +267,7 @@
 	.feed{
 		width: 100%;
 		margin-top: 20px;
-		height: 180px;
+		height: 160px;
 		background-color: #7a797940;
 	}
 	.shop{
@@ -273,6 +285,7 @@
 		margin: 0 auto;
 	}
 	.inp{
+		font-size: 20px;
 		width: 40%;
 		height: 30px;
 	}

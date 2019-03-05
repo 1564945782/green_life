@@ -9,7 +9,11 @@ const session = require('express-session');
 const svgCaptcha = require('svg-captcha');
 
 global.app = express();
-
+//测试路由
+// app.use(function(req,res,next){
+// 	console.log(req.url)
+// 	next()
+// })
 //开启cookie
 let secret = 'moc.01815h.www';
 app.use(cookieParser(secret));
@@ -21,8 +25,6 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge:24*3600000}
 }))
-
-
 //接受post过来的数据
 app.use(bodyParser.urlencoded({ extended: true }));   //接收form-data
 app.use(bodyParser.json());  //接收json格式的数据
@@ -33,7 +35,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'demo1',
+    database: 'green_life',
 	multipleStatements: true
 });
 mydb.connect();
@@ -43,14 +45,9 @@ app.engine('html',ejs.renderFile);    //定义模板引擎，自定后缀是html
 app.set("views",'views');        //指定模板文件所在的文件夹
 app.set('view engine','html');        //注册模板引擎到express
 
-
-
-
-
 /*******************前端请求数据的路由*************************/
 //获取所有商品信息
 app.get('/getgoodsdata',(req,res)=>{
-	console.log("商品信息");
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
@@ -62,10 +59,50 @@ app.get('/getgoodsdata',(req,res)=>{
 		}
 	})
 })
+//获取当前用户的购物车的所有商品信息
+app.get('/getcargoods',(req,res)=>{
+	let idStr="";
+	let carGoodsIds=req.query.carGoodsIds;
+	console.log(carGoodsIds)
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	for(var i=0;i<carGoodsIds.length;i++){
+		if(i==carGoodsIds.length-1){
+			idStr+=carGoodsIds[i];
+		}else{
+			idStr+=carGoodsIds[i];
+			idStr+=",";
+		}
+	}
+	let sql="select * from goods_info where id in("+idStr+")";
+	mydb.query(sql,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+		else if(result.length!=0){
+			res.send(result);
+		}else{
+			res.send("The car is no any goods!");
+		}
+	})
+})
+//添加商品到购物车
+app.get('/addtocar',(req,res)=>{
+	let obj={};
+	let carGoodsInfo="";
+	let sql="update user_info set car_goods=concat(car_goods,';',?) where id=?";     //UPDATE test SET user= CONCAT(user,',phpchina')  WHERE id= '2';
+	let userId=req.query.userId;
+	obj.id=req.query.goodsId;
+	obj.num=req.query.goodsNum;
+	carGoodsInfo=JSON.stringify(obj)
+	mydb.query(sql,[carGoodsInfo,userId],(err,result)=>{
+		if(err){console.log("在数据库修改数据时发生了错误："+err);return;}
+		else{
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.send("add goods to car is successful!")
+		}
+	})
+})
 //axios.post请求方式/花卉页面
 app.post('/getdatabyajax',(req,res)=>{
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	// console.log("zhixingle")
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err)}
@@ -76,23 +113,6 @@ app.post('/getdatabyajax',(req,res)=>{
 		}
 	})
 })
-
-//前端请求用户信息
-app.get('/userdata',(req,res)=>{
-	console.log(req.query.id)
-	let id=req.query.id;
-	let sql="select * from user_info where id=?";
-	mydb.query(sql,id,(err,result)=>{
-		if(err){console.log("在数据库查找数据时发生了错误："+err)}
-		else if(result.length!=0){
-			app.set('jsonp callback name', 'cb');
-			res.jsonp(result)
-		}else{
-			res.send("There is no users!");
-		}
-	})	
-})
-
 //用户登录
 app.post('/user_login',(req,res)=>{
 	let body=req.body;
@@ -101,7 +121,7 @@ app.post('/user_login',(req,res)=>{
 	mydb.query(sql,[body.tel,body.pwd],(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
 		else if(result.length!=0){
-			if(body.code.toLowerCase()!=captcha.text.toLowerCase()){res.send("code err!")}
+			if(body.code.toLowerCase()!=captcha.text.toLowerCase()){res.send({feedback:"code err!",data:""})}
 			else{res.send({feedback:"login success!",data:result})}
 		}else{
 			res.send({feedback:"name and passward not match!",data:""})
@@ -128,7 +148,18 @@ app.post('/user_regist',(req,res)=>{
 		}
 	})
 })
-
+//获取当前用户的car_goods信息
+app.get("/getCarGoodsIds",(req,res)=>{
+	let userId=req.query.id;
+	let sql="select car_goods from user_info where id=?";
+	mydb.query(sql,[userId],(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result[0])
+		}
+	})
+})
 //用户信息修改
 app.get('/changeuser',(req,res)=>{
 	console.log(req.query)
@@ -155,8 +186,6 @@ app.get('/getdetails',(req,res)=>{
 		}
 	})
 })
-
-
 //前端动态获取验证码
 let captcha;
 app.get('/getcode',(req,res)=>{

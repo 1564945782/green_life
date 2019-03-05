@@ -12,8 +12,7 @@
 		  </ul>
 		  <ul class="right-ul">
 		  	<li><router-link to="/login">登录</router-link></li>
-		  	<li><router-link to="/order_form">购物车(0)</router-link></li>
-		  	<li><router-link to="/my_info">头像图片</router-link></li>
+		  	<li><router-link to="/order_form">购物车</router-link></li>
 		  </ul>
 	  </div>
   </header>
@@ -55,7 +54,7 @@
 		line-height: 60px;
 	}
 	.right-ul{
-		width: 20%;
+		width: 10%;
 		margin: 0 auto;
 		display: flex;
 		justify-content: space-between;

@@ -1,78 +1,94 @@
 <template>
   <div class="orderform">
-		<main-nav :curUser="currUser"></main-nav>
-		<div class="banner_box">
-			<div class="car_box">
-				<div class="car_list">
-					<img src="" alt="">
-					<div class="car_text_box">
-						
-					</div>
+		<secondary-nav></secondary-nav>
+		<div class="order-wrap">
+			<div class="order-title clear">
+				<h3>我的购物车商品展示（{{carGoodsInfo.length}}）</h3>
+				<div>
+					<label>全不选 <input type="checkbox" :checked="!allSelected" @click="allSelected=false"/></label>
+					<label>全选 <input type="checkbox" v-model="allSelected" :checked="allSelected"/></label>
 				</div>
-				
-				<div class="car_list">
-					<img src="" alt="">
-					<div class="car_text_box">
-						
-					</div>
-				</div>
-				
-				<div class="car_list">
-					<img src="" alt="">
-					<div class="car_text_box">
-						
-					</div>
-				</div>
+			</div>
+			<div class="order-content">
+				<h2 v-if="!hasGoods && isLogin"><strong>购物车空空如也~</strong></h2>
+				<h2 v-if="!isLogin"><strong>你还没有登录,不配拥有购物车！</strong></h2>
+				<order-item :goodsInfo="carGoodsInfo" :allSelect="allSelected" :curUser="currUser" v-if="isLogin" v-for="(item,index) in carGoodsInfo" :ite="item" :ind="index"></order-item>
 			</div>
 		</div>
   </div>
 </template>
-
 <script>
-	import {$,$$} from '../assets/js/base.js'
-	import mainNav from '../components/main_nav'
+	import orderItem from '../components/order_display.vue'
+	import secondaryNav from '../components/secondary_nav.vue'
+	import $ from 'jquery';
+	import axios from "axios";
 	export default {
 		name: 'orderform',
 		props:["currUser"],
 		components:{
-			mainNav
+			secondaryNav,orderItem
 		},
-		data(){
+		data () {
 			return {
-			
+				carGoodsInfo:[],
+				isLogin:false,
+				hasGoods:false,
+				allSelected:false
+			}
+		},
+		mounted() {
+			let that=this;
+			if(this.currUser){
+				that.isLogin=true;
+				let url="http://localhost:81/getCarGoodsIds?id="+this.currUser.id+"&cb=?";
+				$.getJSON(url,function(result){
+					var carGoodsIds=[];
+					if(result.car_goods.length>1){
+						var carGoodsLists=result.car_goods.substr(1).split(";");
+						console.log(JSON.parse(carGoodsLists[0]).id)
+						if(carGoodsLists.length>0){
+							that.hasGoods=true;
+							for(var i=0;i<carGoodsLists.length;i++){
+								var id=parseInt(JSON.parse(carGoodsLists[i]).id)
+								carGoodsIds.push(id);
+							}
+							axios.get('http://localhost:81/getcargoods',{
+								params:{carGoodsIds:carGoodsIds}
+							})
+							.then(function (response) {
+								that.carGoodsInfo=response.data;
+							})
+							.catch(function (error) {
+								console.log(error);
+							});
+						}
+					}
+				})
 			}
 		}
 	}
 </script>
 
 <style>
-	.banner_box{
-		width: 100%;
-	}
-	.car_box{
-		width: 1200px;
+	.order-wrap{
+		width: 80%;
 		margin: 0 auto;
-		margin-top: 20px;
-		/* height: 200px; */
-		/* background-color: lavender; */
+		padding: 20px 30px;
+		background: #eee;
 	}
-	.car_list{
-		width: 100%;
-		/* background-color: lightgray; */
-		height: 200px;
-		display: flex;
-		margin-bottom: 20px;
-		justify-content: space-around;
-		box-shadow: 5px 5px 2px #e6e3e3;
+	.order-title{
+		color: orange;
+		padding-bottom: 3px;
+		border-bottom:2px solid darkorange;
 	}
-	.car_list img{
-		width: 20%;
-		height: 200px;
-		background-color: lightcoral;
+	.order-title h3{
+		float: left;
 	}
-	.car_text_box{
-		width: 75%;
-		height: 200px;
-		background-color: lightgreen;
+	.order-title div{
+		float: right;
+	}
+	.order-title label{
+		float: right;
+		padding-left: 20px;
 	}
 </style>

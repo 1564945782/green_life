@@ -1,49 +1,46 @@
+<!-- ÊèèËø∞ÔºöËøôÊòØexampleÁ§∫‰æãÊñá‰ª∂ -->
 <template>
   <div class="feedback">
-		<main-nav :curUser="currUser"></main-nav>
-		<div class="feedback_box">
-			<div class="feed_box">
-				<el-input
-				  type="textarea"
-				  :rows="2"
-				  placeholder="«Î ‰»Îƒ⁄»›"
-				  v-model="textarea">
-				</el-input>
-					<!-- ∞¥≈• -->
-					<el-row>
-					  <el-button type="primary">∑¢±Ì</el-button>
-					  <el-button type="info">«Âø’</el-button>
-					</el-row>
-			
-			</div>
+  		<secondary-nav :curUser="currUser"></secondary-nav>
+		<div class="feed-wrap">
+			<div class="feed-welcome">Ê¨¢ËøéÊÇ®Ôºå<strong>{{currUser.nickname}}</strong></div>
+			<textarea placeholder="Âú®ËøôÈáåËæìÂÖ•ÊÇ®ÁöÑÂèçÈ¶àÊÑèËßÅ"></textarea><br />
+			<button type="button">Êèê‰∫§</button>
 		</div>
   </div>
 </template>
 
 <script>
-	import {$,$$} from '../assets/js/base.js'
-	import mainNav from '../components/main_nav'
+	import secondaryNav from '../components/secondary_nav'
 	export default {
 		name: 'feedback',
 		props:["currUser"],
 		components:{
-			mainNav
+			secondaryNav
 		}
 	}
 </script>
 
-<style>
-	.feedback_box{
-		width: 100%;
-	}
-	.feed_box{
-		width: 1200px;
-		height: 300px;
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+	.feed-wrap{
+		width: 90%;
 		margin: 0 auto;
-		background-color: lavender;
+		padding: 0 20px 15px;
+		background: #eee;
 	}
-	.el-row{
-		width: 200px;
-		margin-right: 100px;
+	.feed-welcome{
+		font: normal 20px/30px "ÂæÆËΩØÈõÖÈªë";
+		padding: 15px 0;
+	}
+	.feed-wrap textarea{
+		height: 250px;
+		width: 100%;
+		font-size: 18px;
+		resize: none;
+		overflow: auto;
+	}
+	.feed-wrap button{
+		padding: 5px 10px;
 	}
 </style>

@@ -4,21 +4,11 @@
 		<div class="logo">Green Life</div>
 		<div class="nav">
 			<ul class="left-ul clear">
-				<li>
-					<router-link to="/home">首页</router-link>
-				</li>
-				<li>
-					<router-link to="/flower">花卉</router-link>
-				</li>
-				<li>
-					<router-link to="/more_meat">多肉</router-link>
-				</li>
-				<li>
-					<router-link to="/bionic">仿生盆栽</router-link>
-				</li>
-				<li>
-					<router-link to="/feedback">反馈</router-link>
-				</li>
+				<li><router-link to="/home" @click.native="changeActiveNum(0)" :class="{'menu_nav_active':activeNum==0}">首页</router-link></li>
+				<li><router-link to="/flower" @click.native="changeActiveNum(1)" :class="{'menu_nav_active':activeNum==1}">花卉</router-link></li>
+				<li><router-link to="/more_meat" @click.native="changeActiveNum(2)" :class="{'menu_nav_active':activeNum==2}">多肉</router-link></li>
+				<li><router-link to="/bionic" @click.native="changeActiveNum(3)" :class="{'menu_nav_active':activeNum==3}">仿生盆栽</router-link></li>
+				<li><router-link to="/feedback"@click.native="changeActiveNum(4)" :class="{'menu_nav_active':activeNum==4}">反馈</router-link></li>
 			</ul>
 			<div class="head-img">
 				<div @click="checkimg"><img :src="curUser.head_img" /></div>
@@ -28,7 +18,7 @@
 					<router-link to="/login">{{curUser.id?'退出':'登录'}}</router-link>
 				</li>
 				<li>
-					<router-link to="/order_form">购物车(0)</router-link>
+					<router-link to="/order_form">购物车</router-link>
 				</li>
 			</ul>
 			<div class="search">
@@ -44,7 +34,7 @@
 		name: 'main_nav',
 		data() {
 			return {
-
+				activeNum: 0
 			}
 		},
 		props: ["curUser"],
@@ -52,6 +42,9 @@
 
 		},
 		methods: {
+			changeActiveNum(num) {
+				this.activeNum=num;
+			},
 			checkimg() {
 				let _this=this
 				console.log(55)
@@ -121,10 +114,10 @@
 	.right-ul {
 		float: right;
 	}
-
-	.left-ul li:nth-child(1) a {
+	.menu_nav_active{
 		border-bottom: 2px solid #b2d430;
 	}
+	
 
 	.left-ul a:hover {
 		color: #b2d430;
