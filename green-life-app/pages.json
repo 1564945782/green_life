@@ -36,6 +36,18 @@
         {
             "path" : "pages/details/details",
             "style" : {}
+        },
+        {
+            "path" : "pages/change-myinfo/change-myinfo",
+            "style" : {}
+        },
+        {
+            "path" : "pages/login/login",
+            "style" : {}
+        },
+        {
+            "path" : "pages/regist/regist",
+            "style" : {}
         }
     ],
     "globalStyle" : {

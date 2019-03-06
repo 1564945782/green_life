@@ -2,20 +2,21 @@
 	<view>
 		<view class="content02">
 			<view class="c_wrap center">
-				<view class="c_child02" @click="fn">
-					<view><img :src="c_img[0].big_imgs.split(',')[0]" alt="c_img[0].name"></view>
+				<view class="c_child02" @click="fn" >
+					<view @click="jump" v-bind:id="c_img[0].id"><img :src="c_img[0].big_imgs.split(',')[0]" alt="c_img[0].name"></view>
 					<p>{{c_img[0].name}}</p>
 				</view>
 				<view class="c_child02">
-					<view><img :src="c_img[1].big_imgs.split(',')[0]" alt="c_img[1].name"></view>
+					<view @click="jump" v-bind:id="c_img[1].id"><img :src="c_img[1].big_imgs.split(',')[0]" alt="c_img[1].name"></view>
 					<p>{{c_img[1].name}}</p>
 				</view>
 				<view class="c_child02">
-					<view><img :src="c_img[2].big_imgs.split(',')[0]" alt="c_img[2].name"></view>
+					<view @click="jump" v-bind:id="c_img[2].id"><img :src="c_img[2].big_imgs.split(',')[0]" alt="c_img[2].name"></view>
 					<p>{{c_img[2].name}}</p>
 				</view>
-				<view class="c_child01"><img :src="c_img[0].big_imgs.split(',')[0]" alt="c_img[3].name">
-					<view>{{c_img[3].name}}</view>
+				<view class="c_child02">
+					<view @click="jump" v-bind:id="c_img[3].id"><img :src="c_img[3].big_imgs.split(',')[0]" alt="c_img[2].name"></view>
+					<p>{{c_img[3].name}}</p>
 				</view>
 			</view>
 		</view>
@@ -29,6 +30,14 @@
 		methods: {
 			fn() {
 				console.log(this.c_img)
+			},
+			jump: function(e) {
+				// console.log(this.mydata)
+				// console.log(e.currentTarget.id)
+			uni.navigateTo({
+					url: "../details/details?id="+e.currentTarget.id+"",
+					// url: "../details/details"
+				});
 			}
 		}
 	}

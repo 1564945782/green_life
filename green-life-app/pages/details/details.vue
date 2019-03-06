@@ -43,7 +43,7 @@
 				<view class="line"></view>
 				<view class="btn_box">
 					<view class="two_btn">
-						<button class="btn1">加入购物车</button>
+						<button class="btn1" @click="shopping_car">加入购物车</button>
 						<button class="btn2">立即购买</button>
 					</view>
 				</view>
@@ -58,14 +58,16 @@
 			return {
 				goodsData:"",
 				iddata:"",
-				// getdetails:"",
 				myid:"",
 				bigImg:[]
 			};
 		},
 		methods:{
-			
-			
+			shopping_car:function(){
+				uni.switchTab({
+					url:"../cart/cart"
+				})
+			}
 		},
 		onLoad:function(option) {
 			console.log("index-------------监听页面加载 ")
@@ -74,14 +76,13 @@
 			for(let i=0;i<this.goodsData.length;i++){
 				if(option.id==this.goodsData[i].id){
 					this.iddata=this.goodsData[i]
-					// console.log(this.iddata.big_imgs.split(","))
+					//console.log(this.iddata.big_imgs.split(","))
 					this.bigImg=this.iddata.big_imgs.split(",")
 				}
 			}
 		}
 	}
 </script>
-
 <style>
 	.banner-img{
 		width: 100%;

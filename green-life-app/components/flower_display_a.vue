@@ -2,10 +2,15 @@
 	<view>
 		<view class="content01">
 		  <view class="c_wrap center">
-			<view class="c_child01"><img :src="mydata[0].big_imgs.split(',')[0]" alt="mydata[0].name"><view>{{mydata[0].name}}</view></view>
-			<view class="c_child02"><view><img :src="mydata[1].small_imgs.split(',')[1]" alt="mydata[1].name">
-			  </view><p>{{mydata[1].name}}</p></view>
-			  <view class="c_child03">
+			<view class="c_child01" @click="jump" v-bind:id="mydata[0].id">
+				<img :src="mydata[0].big_imgs.split(',')[0]" alt="mydata[0].name">
+				<view>{{mydata[0].name}}</view>
+			</view>
+			<view class="c_child02" @click="jump" v-bind:id="mydata[1].id">
+				<view><img :src="mydata[1].small_imgs.split(',')[1]" alt="mydata[1].name">
+			  </view><p>{{mydata[1].name}}</p>
+			</view>
+			  <view class="c_child03" @click="jump" v-bind:id="mydata[1].id">
 			  <p><b>【盆器选择】</b></p>
 			  <p> {{mydata[1].description}}</p>
 			  <p><b>【注意事项】</b></p>
@@ -26,7 +31,17 @@
 				'https://gd3.alicdn.com/imgextra/i3/4137666646/O1CN011yxuibKUsySuyLx_!!4137666646.jpg_400x400.jpg_.webp']
 			  };
 		  },
-		  props:["mydata"]
+		  props:["mydata"],
+			methods:{
+				jump: function(e) {
+					// console.log(this.mydata)
+					// console.log(e.currentTarget.id)
+				uni.navigateTo({
+						url: "../details/details?id="+e.currentTarget.id+"",
+						// url: "../details/details"
+					});
+				}
+			}
 	}
 </script>
 

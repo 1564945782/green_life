@@ -1,7 +1,8 @@
 <script>
 	export default {
 		globalData:{
-		   globalMusicList:''
+		   globalMusicList:'',
+		   globalUserInfo:''
 		  },
 		onLaunch: function () {
 			console.log('App Launch');
@@ -10,6 +11,14 @@
 				success: (res) => {
 					console.log("App.nue--------------------发起qingqiu",res.data);
 					this.globalMusicList=res.data;
+					return res.data
+				}
+			});
+			uni.request({
+				url: 'http://localhost:81/user_info',
+				success: (res) => {
+					console.log(res.data)
+					this.globalUserInfo=res.data;
 					return res.data
 				}
 			});
