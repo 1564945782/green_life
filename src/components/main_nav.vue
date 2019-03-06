@@ -22,8 +22,8 @@
 				</li>
 			</ul>
 			<div class="search">
-				<input type="search" placeholder="你可以在这里搜索本店的全部商品" />
-				<input type="button" value="搜索" />
+				<input type="search" placeholder="你可以在这里搜索本店的全部商品" v-model="key_words"/>
+				<input type="button" value="搜索" @click="searchend"/>
 			</div>
 		</div>
 	</header>
@@ -34,7 +34,8 @@
 		name: 'main_nav',
 		data() {
 			return {
-				activeNum: 0
+				activeNum: 0,	
+				key_words:""
 			}
 		},
 		props: ["curUser"],
@@ -65,6 +66,12 @@
 						path: '/my_info'
 					})
 				}
+			},
+			searchend(){
+				console.log("searchend",this.key_words);
+				this.$router.push({
+					path:'/search_end?key_words='+this.key_words
+				})
 			}
 		}
 	}

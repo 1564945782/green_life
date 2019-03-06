@@ -25,6 +25,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge:24*3600000}
 }))
+
+
 //接受post过来的数据
 app.use(bodyParser.urlencoded({ extended: true }));   //接收form-data
 app.use(bodyParser.json());  //接收json格式的数据
@@ -35,7 +37,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'green_life',
+    database: 'demo1',
 	multipleStatements: true
 });
 mydb.connect();
@@ -45,9 +47,14 @@ app.engine('html',ejs.renderFile);    //定义模板引擎，自定后缀是html
 app.set("views",'views');        //指定模板文件所在的文件夹
 app.set('view engine','html');        //注册模板引擎到express
 
+
+
+
+
 /*******************前端请求数据的路由*************************/
 //获取所有商品信息
 app.get('/getgoodsdata',(req,res)=>{
+	console.log("商品信息");
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
@@ -103,6 +110,7 @@ app.get('/addtocar',(req,res)=>{
 //axios.post请求方式/花卉页面
 app.post('/getdatabyajax',(req,res)=>{
 	res.setHeader("Access-Control-Allow-Origin", "*");
+	// console.log("zhixingle")
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err)}
@@ -186,6 +194,24 @@ app.get('/getdetails',(req,res)=>{
 		}
 	})
 })
+//商品搜索结果
+app.get('/searchdata',(req,res)=>{
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	console.log("搜索结果",req.query.keywords);	
+	let keywords01='"%'+req.query.keywords+'%"';
+	let sql = `select *from goods_info WHERE description like ${keywords01}`;
+    mydb.query(sql,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			console.log(result)
+			console.log("结果总数："+result.length)
+			
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
+		}
+	})
+})
+
 //前端动态获取验证码
 let captcha;
 app.get('/getcode',(req,res)=>{

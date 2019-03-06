@@ -231,7 +231,7 @@
 					_this.form.mycolor="rgb(243, 165, 95)";
 					_this.disabled=true;
 					_this.display="none";
-					_this.$alert('保存成功！！！', '温馨提示', {
+					_this.$alert('保存成功', '温馨提示', {
 						confirmButtonText: '确定',
 						callback: action => {
 							_this.$message({
