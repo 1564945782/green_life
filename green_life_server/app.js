@@ -9,7 +9,11 @@ const session = require('express-session');
 const svgCaptcha = require('svg-captcha');
 
 global.app = express();
-
+//测试路由
+// app.use(function(req,res,next){
+// 	console.log(req.url)
+// 	next()
+// })
 //开启cookie
 let secret = 'moc.01815h.www';
 app.use(cookieParser(secret));
@@ -33,7 +37,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'green-life',
+    database: 'demo1',
 	multipleStatements: true
 });
 mydb.connect();
@@ -59,6 +63,7 @@ app.all("*",function(req,res,next){
 /*******************前端请求数据的路由*************************/
 //获取所有商品信息
 app.get('/getgoodsdata',(req,res)=>{
+	console.log("商品信息");
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
@@ -67,6 +72,78 @@ app.get('/getgoodsdata',(req,res)=>{
 			res.jsonp(result)
 		}else{
 			res.send("There is no goods!");
+		}
+	})
+})
+//获取当前用户的购物车的所有商品信息
+app.get('/getcargoods',(req,res)=>{
+	let idStr="";
+	let carGoodsIds=req.query.carGoodsIds;
+	console.log(carGoodsIds)
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	for(var i=0;i<carGoodsIds.length;i++){
+		if(i==carGoodsIds.length-1){
+			idStr+=carGoodsIds[i];
+		}else{
+			idStr+=carGoodsIds[i];
+			idStr+=",";
+		}
+	}
+	let sql="select * from goods_info where id in("+idStr+")";
+	mydb.query(sql,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+		else if(result.length!=0){
+			res.send(result);
+		}else{
+			res.send("The car is no any goods!");
+		}
+	})
+})
+
+//获取当app的购物车
+app.get('/getcargoodsapp',(req,res)=>{
+	let idStr="";
+	let carGoodsIds=req.query.carGoodsIds;
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	let sql="select * from user_info where id=?";
+	mydb.query(sql,req.query.id,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+		else if(result.length!=0){
+			let result_data=result[0].car_goods.split(';').slice(1,result[0].car_goods.split(';').length);
+			let arr_id=[];
+			for(var i=0;i<result_data.length;i++){
+				arr_id.push(parseInt(JSON.parse(result_data[i]).id))
+			}
+			let sql1="select * from goods_info where id in("+arr_id+")";
+			mydb.query(sql1,(err,result1)=>{
+				if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+				else if(result1.length!=0){
+					res.send(result1);
+				}else{
+					res.send("The car is no any goods!");
+				}
+			})
+		}else{
+			res.send("The car is no any goods!");
+		}
+	})
+})
+
+
+//添加商品到购物车
+app.get('/addtocar',(req,res)=>{
+	let obj={};
+	let carGoodsInfo="";
+	let sql="update user_info set car_goods=concat(car_goods,';',?) where id=?";     //UPDATE test SET user= CONCAT(user,',phpchina')  WHERE id= '2';
+	let userId=req.query.userId;
+	obj.id=req.query.goodsId;
+	obj.num=req.query.goodsNum;
+	carGoodsInfo=JSON.stringify(obj)
+	mydb.query(sql,[carGoodsInfo,userId],(err,result)=>{
+		if(err){console.log("在数据库修改数据时发生了错误："+err);return;}
+		else{
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.send("add goods to car is successful!")
 		}
 	})
 })
@@ -142,6 +219,32 @@ app.post('/user_regist',(req,res)=>{
 		}
 	})
 })
+//获取当前用户的car_goods信息
+app.get("/getCarGoodsIds",(req,res)=>{
+	let userId=req.query.id;
+	let sql="select car_goods from user_info where id=?";
+	mydb.query(sql,[userId],(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result[0])
+		}
+	})
+})
+//用户信息修改
+app.get('/changeuser',(req,res)=>{
+	console.log(req.query)
+	console.log(req.query.id)
+	console.log(req.query.name)
+	let sql="update user_info set nickname=?,tel=?,head_img=? where id=?";
+	mydb.query(sql,[req.query.name,req.query.tel,req.query.imgs,req.query.id],(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
+		}
+	})
+})
 //商品详情页面
 app.get('/getdetails',(req,res)=>{
 	let goodsId=req.query.id;
@@ -149,6 +252,23 @@ app.get('/getdetails',(req,res)=>{
 	mydb.query(sql,[goodsId],(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err)}
 		else{
+			app.set('jsonp callback name', 'cb');
+			res.jsonp(result)
+		}
+	})
+})
+//商品搜索结果
+app.get('/searchdata',(req,res)=>{
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	console.log("搜索结果",req.query.keywords);	
+	let keywords01='"%'+req.query.keywords+'%"';
+	let sql = `select *from goods_info WHERE description like ${keywords01}`;
+    mydb.query(sql,(err,result)=>{
+		if(err){console.log("在数据库查找数据时发生了错误："+err)}
+		else{
+			console.log(result)
+			console.log("结果总数："+result.length)
+			
 			app.set('jsonp callback name', 'cb');
 			res.jsonp(result)
 		}
