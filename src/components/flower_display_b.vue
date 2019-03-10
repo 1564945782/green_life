@@ -3,6 +3,8 @@
 	<div class="f_out">
 		<div class="content02">
 
+
+
 			<div class="c_wrap center" v-for="item in flower1.slice(0,3)">
 				<div class="f_item_box">
 					<div class="c_child02" :data-id="item.id" @click="todetails(item.id)">
@@ -13,6 +15,8 @@
 					</div>
 				</div>
 			</div>
+
+
 
 			<div class="c_child04">
 				 <img :src="flower1[3].big_imgs.split(',')[0]?flower1[3].big_imgs.split(',')[0]:''" /> 
@@ -38,7 +42,7 @@
 	}
 </script>
 
- <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 	img:hover {
 		opacity: 0.5;

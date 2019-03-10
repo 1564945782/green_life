@@ -37,7 +37,9 @@
 </template>
 
 <script>
-	import  $ from 'jquery';
+	import  qs from 'qs';
+	import $ from "jquery";
+	import axios from "axios"
 	import mainNav from '../components/main_nav'
 	import homeDisplay from '../components/home_display.vue'
 	import bottomFooter from '../components/bottom_footer.vue'
@@ -46,7 +48,9 @@
 		name: 'home',
 		data:function(){
 			return {
-				goodsData:""
+				goodsData:"",
+				cookieTel:"",
+				cookiePwd:""
 			}
 		},
 		props:["currUser"],
@@ -55,19 +59,32 @@
 			bottomFooter,
 			homeDisplay
 		},
-		beforeCreate(){
+		mounted(){
 			let that=this;
 			let url="http://localhost:81/getgoodsdata?cb=?"
 			$.getJSON(url,function(result){
 				that.goodsData=result;
-				
 				for(var i=0;i<that.goodsData.length;i++){
 					if(that.goodsData[i].type=="花卉"){
 						console.log(that.goodsData[i].big_imgs.split(",")[0])
 					}
 				}
-				
 			})
+			if(document.cookie){
+				let that=this;
+				this.cookieTel=document.cookie.split(";")[0].split("=")[1];
+				this.cookiePwd=document.cookie.split(";")[1].split("=")[1];
+				axios.post('http://localhost:81/user_login',qs.stringify({
+					tel:that.cookieTel,
+					pwd:that.cookiePwd
+				}))
+				.then(function (response) {
+					that.$emit('getCurrentUser', response.data[0])// childByValue是在父组件on监听的方法// 第二个参数this.childValue是需要传的值
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+			}
 		}
 	}
 </script>

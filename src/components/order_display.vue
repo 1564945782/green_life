@@ -6,7 +6,7 @@
 			<div class="f-price">
 				<ins>￥{{ite.ins_price}}</ins>
 				<del>￥{{ite.del_price}}</del>
-				<span>X{{JSON.parse(this.carGoodsArr[ind]).num}}</span>
+				<span>X{{ite.buy_num}}</span>
 			</div>
 		</div>
 		<div class="car-checkbox-box"><input type="checkbox" :checked="allSelect"></div>
@@ -16,7 +16,7 @@
 <script>
 	export default {
 		name: 'order_form',
-		props:["goodsInfo","ite","ind","allSelect","curUser"],
+		props:["goodsInfo","ite","allSelect","curUser"],
 		data:function(){
 			return {
 				carGoodsArr:this.curUser.car_goods.substr(1).split(";")

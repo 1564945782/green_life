@@ -1,6 +1,6 @@
 <template>
   <div class="orderform">
-		<secondary-nav></secondary-nav>
+		<secondary-nav :curUser="currUser"></secondary-nav>
 		<div class="order-wrap">
 			<div class="order-title clear">
 				<h3>我的购物车商品展示（{{carGoodsInfo.length}}）</h3>
@@ -12,7 +12,7 @@
 			<div class="order-content">
 				<h2 v-if="!hasGoods && isLogin"><strong>购物车空空如也~</strong></h2>
 				<h2 v-if="!isLogin"><strong>你还没有登录,不配拥有购物车！</strong></h2>
-				<order-item :goodsInfo="carGoodsInfo" :allSelect="allSelected" :curUser="currUser" v-if="isLogin" v-for="(item,index) in carGoodsInfo" :ite="item" :ind="index"></order-item>
+				<order-item :goodsInfo="carGoodsInfo" :allSelect="allSelected" :curUser="currUser" v-if="isLogin" v-for="(item,index) in carGoodsInfo" :ite="item"></order-item>
 			</div>
 		</div>
   </div>
@@ -21,7 +21,6 @@
 	import orderItem from '../components/order_display.vue'
 	import secondaryNav from '../components/secondary_nav.vue'
 	import $ from 'jquery';
-	import axios from "axios";
 	export default {
 		name: 'orderform',
 		props:["currUser"],
@@ -40,28 +39,12 @@
 			let that=this;
 			if(this.currUser){
 				that.isLogin=true;
-				let url="http://localhost:81/getCarGoodsIds?id="+this.currUser.id+"&cb=?";
+				let url="http://localhost:81/getcargoods?id="+this.currUser.id+"&cb=?";
 				$.getJSON(url,function(result){
-					var carGoodsIds=[];
-					if(result.car_goods.length>1){
-						var carGoodsLists=result.car_goods.substr(1).split(";");
-						console.log(JSON.parse(carGoodsLists[0]).id)
-						if(carGoodsLists.length>0){
-							that.hasGoods=true;
-							for(var i=0;i<carGoodsLists.length;i++){
-								var id=parseInt(JSON.parse(carGoodsLists[i]).id)
-								carGoodsIds.push(id);
-							}
-							axios.get('http://localhost:81/getcargoods',{
-								params:{carGoodsIds:carGoodsIds}
-							})
-							.then(function (response) {
-								that.carGoodsInfo=response.data;
-							})
-							.catch(function (error) {
-								console.log(error);
-							});
-						}
+					if(result){
+						that.hasGoods=true;
+						that.carGoodsInfo=result;
+						console.log(that.carGoodsInfo)
 					}
 				})
 			}

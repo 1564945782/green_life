@@ -15,18 +15,18 @@
 					</div>
 				</div>
 				<div class="banner-right">
-					<p class="info_1 describle">{{getdetails[0].name}}</p>
-					<p class="info_1 describle">{{getdetails[0].description}}</p>
+					<p class="info_1 describle">{{getdetails.name}}</p>
+					<p class="info_1 describle">{{getdetails.description}}</p>
 					<p class="info_2">保证成活 2盆送工具</p>
 					<!-- 价格区域 -->
 					<div class="price">
 						<div class="price_one">
 							<span class="del_price_str">价格</span>
-							<del class="del_price_num">￥{{getdetails[0].del_price}}</del><br>
+							<del class="del_price_num">￥{{getdetails.del_price}}</del><br>
 						</div>
 						<div class="price_two">
 							<span class="ins_price_str">促销价</span>
-							<span class="ins_price_num">￥{{getdetails[0].ins_price}}</span>
+							<span class="ins_price_num">￥{{getdetails.ins_price}}</span>
 						</div>
 						<p class="discount">淘金币可抵扣商品价格2%</p>
 					</div>
@@ -66,13 +66,13 @@
 					</div>
 					<!-- 养殖方法 -->
 					<div class="feed">
-						<p class="ways">{{getdetails[0].breed_ways}}</p>
+						<p class="ways">{{getdetails.breed_ways}}</p>
 					</div>
 					<!-- 购物车部分 -->
 					<div class="shop">
 						<div class="change">
 							购买数量：<input class="inp" type="number" @input="numInpHint" v-model="goodsNum"/><br />
-							<span>库存量：{{getdetails[0].inventory}}</span>
+							<span>库存量：{{getdetails.inventory}}</span>
 						</div>
 						<div class="car">
 							<el-button type="danger" @click="addToCar">添加到购物车</el-button>
@@ -100,25 +100,29 @@
 		data:function(){
 			return {
 				a:"",
-				getdetails:"",
+				getdetails:{},
 				myid:"",
 				goodsNum:0,
-				smallImg:[],
+				smallImag:[],
 				bigImg:[]
 			}
 		},
 		methods:{
 			addToCar(){
 				if(this.currUser!=""){    //如果已经登录
-					axios.get('http://localhost:81/addtocar',{
-						params: {'userId': this.currUser.id, "goodsNum":this.goodsNum,'goodsId':this.myid}
-					})
-					.then(function (response) {
-						console.log(response)
-					})
-					.catch(function (error) {
-						console.log(error);
-					});
+					if(this.goodsNum==0){
+						alert("商品数量必须大于0！")
+					}else{
+						axios.get('http://localhost:81/addtocar',{
+							params: {'userId': this.currUser.id, "goodsNum":parseInt(this.goodsNum),'goodsId':this.myid}
+						})
+						.then(function (response) {
+							console.log(response)
+						})
+						.catch(function (error) {
+							console.log(error);
+						});
+					}
 				}else{alert("请先登录！")}
 			},
 			numInpHint(){
@@ -136,18 +140,13 @@
 			that.myid=that.$route.query.id
 			let url="http://localhost:81/getdetails?id="+that.myid+"&cb=?"
 			$.getJSON(url,function(result){
-				that.getdetails=result;
-				// console.log(that.getdetails)
-				// 小图
-				let smallstr=that.getdetails[0].small_imgs
+				that.getdetails=result[0];
+				let smallstr=that.getdetails.small_imgs
 				let imgarr1=smallstr.split(',')
 				that.smallImag=imgarr1
-				// console.log(that.smallImag)
-				// 大图
-				let bigstr=that.getdetails[0].big_imgs
+				let bigstr=that.getdetails.big_imgs
 				let imgarr2=bigstr.split(',')
 				that.bigImg=imgarr2
-				// console.log(that.bigImg)
 				that.a=that.bigImg[0]
 			})
 		}

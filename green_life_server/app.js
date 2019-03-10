@@ -37,7 +37,7 @@ global.mydb = mysql.createConnection({
     user: 'root',
     password: '123',
     port: 3306,
-    database: 'demo1',
+    database: 'green_life',
 	multipleStatements: true
 });
 mydb.connect();
@@ -63,7 +63,6 @@ app.all("*",function(req,res,next){
 /*******************前端请求数据的路由*************************/
 //获取所有商品信息
 app.get('/getgoodsdata',(req,res)=>{
-	console.log("商品信息");
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
@@ -75,82 +74,54 @@ app.get('/getgoodsdata',(req,res)=>{
 		}
 	})
 })
-//获取当前用户的购物车的所有商品信息
-app.get('/getcargoods',(req,res)=>{
-	let idStr="";
-	let carGoodsIds=req.query.carGoodsIds;
-	console.log(carGoodsIds)
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	for(var i=0;i<carGoodsIds.length;i++){
-		if(i==carGoodsIds.length-1){
-			idStr+=carGoodsIds[i];
-		}else{
-			idStr+=carGoodsIds[i];
-			idStr+=",";
-		}
-	}
-	let sql="select * from goods_info where id in("+idStr+")";
-	mydb.query(sql,(err,result)=>{
-		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+//添加商品到购物车
+app.get('/addtocar',(req,res)=>{
+	let carGoodsInfo="";
+	let obj={};
+	let sql="select car_goods from user_info where id=?"
+	obj.id=parseInt(req.query.goodsId);
+	obj.num=parseInt(req.query.goodsNum);
+	mydb.query(sql,req.query.userId,(err,result)=>{
+		if(err){console.log("在数据库修改数据时发生了错误："+err);return;}
 		else if(result.length!=0){
-			res.send(result);
-		}else{
-			res.send("The car is no any goods!");
-		}
-	})
-})
-
-//获取当app的购物车
-app.get('/getcargoodsapp',(req,res)=>{
-	let idStr="";
-	let carGoodsIds=req.query.carGoodsIds;
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	let sql="select * from user_info where id=?";
-	mydb.query(sql,req.query.id,(err,result)=>{
-		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
-		else if(result.length!=0){
-			let result_data=result[0].car_goods.split(';').slice(1,result[0].car_goods.split(';').length);
-			let arr_id=[];
-			for(var i=0;i<result_data.length;i++){
-				arr_id.push(parseInt(JSON.parse(result_data[i]).id))
+			if(result[0].car_goods){   //如果car_goods有值
+				var carGoodsLists=JSON.parse(result[0].car_goods)
+				console.log("carGoodsLists=>",carGoodsLists)
+				for(var i=0;i<carGoodsLists.length;i++){
+					if(carGoodsLists[i].id==obj.id){
+						carGoodsLists[i].num+=obj.num;
+						break;
+					}else{
+						if(i==carGoodsLists.length-1){
+							obj.num/=2;   //不知道为什么，当添加第二个及以上数量的商品时，num值总是选择购买件数的2倍，所以除以2
+							carGoodsLists.push(obj);
+						}else{
+							continue;
+						}
+					}
+				}
+				carGoodsInfo=JSON.stringify(carGoodsLists);
+			}else{        //如果car_goods无值
+			    var arr=[];
+				arr.push(obj);
+				carGoodsInfo=JSON.stringify(arr);
 			}
-			let sql1="select * from goods_info where id in("+arr_id+")";
-			mydb.query(sql1,(err,result1)=>{
-				if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
-				else if(result1.length!=0){
-					res.send(result1);
-				}else{
-					res.send("The car is no any goods!");
+			let sq="update user_info set car_goods=? where id=?"
+			mydb.query(sq,[carGoodsInfo,req.query.userId],(err,result)=>{
+				if(err){console.log("在数据库修改数据时发生了错误："+err);return;}
+				else{
+					res.setHeader("Access-Control-Allow-Origin", "*");
+					res.send("add goods to car is successful!")
 				}
 			})
 		}else{
-			res.send("The car is no any goods!");
-		}
-	})
-})
-
-
-//添加商品到购物车
-app.get('/addtocar',(req,res)=>{
-	let obj={};
-	let carGoodsInfo="";
-	let sql="update user_info set car_goods=concat(car_goods,';',?) where id=?";     //UPDATE test SET user= CONCAT(user,',phpchina')  WHERE id= '2';
-	let userId=req.query.userId;
-	obj.id=req.query.goodsId;
-	obj.num=req.query.goodsNum;
-	carGoodsInfo=JSON.stringify(obj)
-	mydb.query(sql,[carGoodsInfo,userId],(err,result)=>{
-		if(err){console.log("在数据库修改数据时发生了错误："+err);return;}
-		else{
-			res.setHeader("Access-Control-Allow-Origin", "*");
-			res.send("add goods to car is successful!")
+			res.send("this query is fail!")
 		}
 	})
 })
 //axios.post请求方式/花卉页面
 app.post('/getdatabyajax',(req,res)=>{
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	// console.log("zhixingle")
 	let sql="select * from goods_info";
 	mydb.query(sql,(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err)}
@@ -177,16 +148,17 @@ app.get('/user_info',(req,res)=>{
 //用户登录
 app.post('/user_login',(req,res)=>{
 	let body=req.body;
-	console.log(body);
 	let sql="select * from user_info where tel=? and pwd=?";
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	mydb.query(sql,[body.tel,body.pwd],(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
 		else if(result.length!=0){
-			console.log(body.code)
-			console.log(captcha.text)
-			if(body.code.toLowerCase()!=captcha.text.toLowerCase()){res.send("code err!")}
-			else{res.send({feedback:"login success!",data:result})}
+			if(body.code){
+				if(body.code.toLowerCase()!=captcha.text.toLowerCase()){res.send({feedback:"code err!",data:""})}
+				else{res.send({feedback:"login success!",data:result})}
+			}else{
+				res.send(result)
+			}
 		}else{
 			res.send({feedback:"name and passward not match!",data:""})
 		}
@@ -201,7 +173,6 @@ app.post('/user_login',(req,res)=>{
 //用户注册
 app.post('/user_regist',(req,res)=>{
 	let body=req.body;
-	console.log(body)
 	let sql="select * from user_info where tel=?";
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	mydb.query(sql,[body.tel],(err,result)=>{
@@ -220,14 +191,41 @@ app.post('/user_regist',(req,res)=>{
 	})
 })
 //获取当前用户的car_goods信息
-app.get("/getCarGoodsIds",(req,res)=>{
+app.get("/getcargoods",(req,res)=>{
 	let userId=req.query.id;
 	let sql="select car_goods from user_info where id=?";
 	mydb.query(sql,[userId],(err,result)=>{
 		if(err){console.log("在数据库查找数据时发生了错误："+err)}
 		else{
-			app.set('jsonp callback name', 'cb');
-			res.jsonp(result[0])
+			if(result[0].car_goods){
+				let idStr="";
+				let carGoodsIds=[]
+				let carGoodsInfo=JSON.parse(result[0].car_goods)
+				for(let i=0;i<carGoodsInfo.length;i++){
+					carGoodsIds.push(carGoodsInfo[i].id)
+				}
+				for(var i=0;i<carGoodsIds.length;i++){
+					if(i==carGoodsIds.length-1){
+						idStr+=carGoodsIds[i];
+					}else{
+						idStr+=carGoodsIds[i];
+						idStr+=",";
+					}
+				}
+				let sql="select * from goods_info where id in("+idStr+")";
+				mydb.query(sql,(err,result)=>{
+					app.set('jsonp callback name', 'cb');
+					if(err){console.log("在数据库查找数据时发生了错误："+err);return;}
+					else if(result.length!=0){
+						for(let i=0;i<result.length;i++){
+							result[i].buy_num=carGoodsInfo[i].num;
+						}
+						res.jsonp(result)
+					}else{
+						res.jsonp("The car is no any goods!");
+					}
+				})
+			}
 		}
 	})
 })

@@ -15,7 +15,8 @@
 			</div>
 			<ul class="right-ul">
 				<li>
-					<router-link to="/login">{{curUser.id?'退出':'登录'}}</router-link>
+					<router-link to="/login" v-if="!curUser">登录</router-link>
+					<router-link to="/login" v-if="curUser">退出</router-link>
 				</li>
 				<li>
 					<router-link to="/order_form">购物车</router-link>
@@ -39,9 +40,7 @@
 			}
 		},
 		props: ["curUser"],
-		mounted() {
-
-		},
+	
 		methods: {
 			changeActiveNum(num) {
 				this.activeNum=num;

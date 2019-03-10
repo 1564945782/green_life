@@ -13,6 +13,7 @@
 		  <ul class="right-ul">
 		  	<li><router-link to="/login">登录</router-link></li>
 		  	<li><router-link to="/order_form">购物车</router-link></li>
+			<li><router-link to="/my_info"><b style="color: orange;font-size: 18px;">{{nickname}}</b></router-link></li>
 		  </ul>
 	  </div>
   </header>
@@ -21,9 +22,15 @@
 <script>
 	export default {
 		name: 'secondary_nav',
-		data () {
+		props:["curUser"],
+		data:function () {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+				nickname:"未登录"
+			}
+		},
+		mounted(){
+			if(this.curUser){
+				this.nickname=this.curUser.nickname
 			}
 		}
 	}
@@ -54,7 +61,7 @@
 		line-height: 60px;
 	}
 	.right-ul{
-		width: 10%;
+		width: 20%;
 		margin: 0 auto;
 		display: flex;
 		justify-content: space-between;

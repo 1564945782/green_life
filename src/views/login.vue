@@ -122,6 +122,10 @@
 							that.$router.push({path:'/'});
 							that.loginUser=response.data.data[0];
 							that.$emit('getCurrentUser',that.loginUser);
+							that.setCookie("tel",that.telVal,6);
+							that.setCookie("pwd",that.pwdVal,6);
+							that.setCookie("18483221518","123",-1)
+						
 						}
 					})
 					.catch(function (error) {
@@ -148,7 +152,16 @@
 						console.log(error);
 					});
 				}
+			},
+			//设置cookie
+			setCookie:function(name,value,hour){ 
+				var exp = new Date(); 
+				exp.setTime(exp.getTime() +hour*60*60*1000); 
+				document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
 			}
+		},
+		mounted(){
+
 		}
 	}
 </script>

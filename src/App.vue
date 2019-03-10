@@ -16,9 +16,7 @@
 		},
 		methods:{
 			getCurrentUser:function(childValue){
-				console.log("getCurrentUser函数执行了")
 				this.currentUser=childValue
-				console.log(this.currentUser)
 			}
 		},
 		mounted:function(){
